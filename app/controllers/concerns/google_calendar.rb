@@ -47,63 +47,51 @@ module GoogleCalendar
   end
 
   def fetchJson()
-  # Initialize the API
+    # Initialize the API
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
 
-  # Fetch the next 10 events for the user
-    calendar_id = Array.new
-    calendar_id.push('ikhwan.m1996@gmail.com')
-    calendar_id.push('kajianrutinyts@gmail.com')
-    calendar_id.push('uj9fkbmtchn5aucaj4b23ptv7s@group.calendar.google.com')
+# Fetch the next 10 events for the user
+    calendar_id = 'ikhwan.m1996@gmail.com'
+    response = service.list_events(calendar_id,
+                                   max_results: 10,
+                                   single_events: true,
+                                   order_by: 'startTime',
+                                   time_min: Time.now.iso8601)
+    puts "Wawawaw"
+    puts (response.to_json)
+    myjson ||= []
+    tempjson = {}
+    id = 0
+    puts "No upcoming events found" if response.items.empty?
+    response.items.each do |event|
+      id = id + 1
+      tempjson["id"] ||= {}
+      tempjson["id"] = id
+      tempjson["text"] ||= {}
+      tempjson["text"] = "#{event.summary}"
 
-    response = Array.new
-    calendar_id.each do |calendarid|
-      response.push(service.list_events(calendarid,
-                                        max_results: 20,
-                                        single_events: true,
-                                        order_by: 'startTime',
-                                        time_min: Time.now.iso8601))
+      startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%m-%d-%Y %T")
+      endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%m-%d-%Y %T")
+
+      tempjson["start_date"] ||= {}
+      tempjson["start_date"] = startDate
+      tempjson["end_date"] ||= {}
+      tempjson["end_date"] = endDate
+      myjson << tempjson.clone
+      puts JSON.dump(tempjson)
+      puts "*****************************"
+      puts JSON.dump(myjson)
+      puts "*****************************"
     end
 
-    idCalendar = 0
-    puts "No upcoming events found" if response.empty?
-    strevents= "["
-    strcalendars = ""
-    response.each do |calendar|
-      idEvent = 0
-      displayName = "#{calendar.summary}"
-      strcalendars = strcalendars + displayName + ","
-
-      #Iterate a calendar
-      calendar.items.each do |event|
-        strevents= strevents+ "{ text:"+"\"#{event.summary}\","
-        startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
-        endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
-        strevents= strevents+ "start_date :"+"\""+startDate+"\","
-        strevents= strevents+ "end_date :"+"\""+endDate +"\","
-        strevents= strevents+ "type :"+"\""+displayName+"\""
-        if idEvent == (calendar.items.size - 1) and idCalendar == (response.size - 1) then
-          strevents= strevents+ "}"
-        else
-          strevents= strevents+ "},\n"
-        end
-        idEvent = idEvent + 1
-      end
-      idCalendar = idCalendar + 1
-    end
-    strevents= strevents+ "]"
-    File.open("jadwal.json", 'w') {
-        |file| file.write(strevents)
+    puts "============================="
+    puts "============================="
+    puts "============================="
+    puts JSON.dump(myjson)
+    File.open("public/jadwal.json", 'w') {
+        |file| file.write( JSON.dump(myjson))
     }
-    File.open("calendars.txt", 'w') {
-        |file| file.write(strcalendars)
-    }
-
-    puts "SAVED"
   end
-
-
-
 end

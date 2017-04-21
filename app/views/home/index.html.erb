@@ -1,7 +1,4 @@
-<script>
-    scheduler.load("jadwal.json", "json");
-    scheduler.parse(readTextFile("jadwal.json"),"json");
-</script>
+
 <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:800px;'>
   <div class="dhx_cal_navline">
     <div class="dhx_cal_prev_button">&nbsp;</div>
@@ -18,9 +15,11 @@
   </div>
 </div>
 <script>
+    scheduler.config.xml_date="%Y-%m-%d %H:%i";
     scheduler.init("scheduler_here",new Date(),"month");
-    //scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-//    scheduler.load("jadwal.json", "json");
-//    scheduler.parse(readTextFile("jadwal.json"),"json");
+    scheduler.load("/jadwal.json", "json");
+    var dp = new dataProcessor("<%= db_action_path %>");
+    dp.init(scheduler);
+    dp.setTransactionMode("GET", false);
 </script>
 
