@@ -16,7 +16,7 @@ module GoogleCalendar
   CLIENT_SECRETS_PATH = 'client_secret.json'
   CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                                "calendar-ruby-quickstart.yaml")
-  SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
+  SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
 
 ##
 # Ensure valid credentials, either by restoring from the saved credentials
@@ -52,8 +52,8 @@ module GoogleCalendar
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
 
-# Fetch the next 10 events for the user
-    calendar_id = 'ikhwan.m1996@gmail.com'
+    # Fetch the next 10 events for the user
+    calendar_id = 'bimawansatrianto@gmail.com'
     response = service.list_events(calendar_id,
                                    max_results: 10,
                                    single_events: true,
@@ -63,17 +63,15 @@ module GoogleCalendar
     puts (response.to_json)
     myjson ||= []
     tempjson = {}
-    id = 0
     puts "No upcoming events found" if response.items.empty?
     response.items.each do |event|
-      id = id + 1
-      tempjson["id"] ||= {}
-      tempjson["id"] = id
+      # tempjson["id"] ||= {}
+      # tempjson["id"] = id
       tempjson["text"] ||= {}
       tempjson["text"] = "#{event.summary}"
 
-      startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%m-%d-%Y %T")
-      endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%m-%d-%Y %T")
+      startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
+      endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
 
       tempjson["start_date"] ||= {}
       tempjson["start_date"] = startDate
@@ -90,8 +88,39 @@ module GoogleCalendar
     puts "============================="
     puts "============================="
     puts JSON.dump(myjson)
-    File.open("public/jadwal.json", 'w') {
-        |file| file.write( JSON.dump(myjson))
-    }
+    # File.open("public/jadwal.json", 'w') {
+    #     |file| file.write( JSON.dump(myjson))
+    # }
+
+    @result = JSON.dump(myjson)
+  end
+
+  def insertJson(json)
+    # Initialize the API
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.client_options.application_name = APPLICATION_NAME
+    service.authorization = authorize
+
+    puts "json wawawawawa"
+    puts json
+    ev = Google::Apis::CalendarV3::Event.new(json)
+    service.insert_event('primary', ev)
+    puts "Event created"
+  end
+
+  def insertEvent(summary, starttime, endtime)
+    event = {}
+    event["summary"] ||= {}
+    event["summary"] =  summary
+    isoStartDate = starttime.to_time.iso8601
+    isoEndDate = endtime.to_time.iso8601
+    event["start"] ||= {}
+    event["start"]["date_time"] ||= {}
+    event["start"]["date_time"] = isoStartDate
+    event["end"] ||= {}
+    event["end"]["date_time"] ||= {}
+    event["end"]["date_time"] = isoEndDate
+
+    insertJson(JSON.dump(event))
   end
 end

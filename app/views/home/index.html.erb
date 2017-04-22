@@ -17,8 +17,8 @@
 <script>
     scheduler.config.xml_date="%Y-%m-%d %H:%i";
     scheduler.init("scheduler_here",new Date(),"month");
-    scheduler.load("/jadwal.json", "json");
-    var dp = new dataProcessor("<%= db_action_path %>");
+    scheduler.load("<%= fetch_path %>", "json");
+    var dp = new dataProcessor("<%= calendar_action_path %>");
     dp.init(scheduler);
     dp.setTransactionMode("GET", false);
 </script>
