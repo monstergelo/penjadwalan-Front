@@ -31,7 +31,7 @@ module GoogleCalendar
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
-    user_id = 'default'
+    user_id = 'bimawansatrianto@gmail.com'
     credentials = authorizer.get_credentials(user_id)
     if credentials.nil?
       url = authorizer.get_authorization_url(
@@ -46,14 +46,54 @@ module GoogleCalendar
     credentials
   end
 
-  def fetchJson()
+  def authorize2(user_id)
+    FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
+
+    client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
+    token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
+    authorizer = Google::Auth::UserAuthorizer.new(
+        client_id, SCOPE, token_store)
+    credentials = authorizer.get_credentials(user_id)
+    if credentials.nil?
+      url = authorizer.get_authorization_url(
+          base_url: OOB_URI)
+      puts "Open the following URL in the browser and enter the " +
+               "resulting code after authorization"
+      puts url
+      code = gets
+      credentials = authorizer.get_and_store_credentials_from_code(
+          user_id: user_id, code: code, base_url: OOB_URI)
+    end
+    credentials
+  end
+
+  def permission(user_id)
+    FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
+
+    client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
+    token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
+    authorizer = Google::Auth::UserAuthorizer.new(
+        client_id, SCOPE, token_store)
+
+    credentials = authorizer.get_credentials(user_id)
+    url = authorizer.get_authorization_url(
+        base_url: OOB_URI)
+    puts "Open the following URL in the browser and enter the " +
+             "resulting code after authorization"
+    puts url
+    code = gets
+    credentials = authorizer.get_and_store_credentials_from_code(
+        user_id: user_id, code: code, base_url: OOB_URI)
+    credentials
+  end
+
+  def fetchUserJson(calendar_id)
     # Initialize the API
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME
-    service.authorization = authorize
+    service.authorization = authorize2(calendar_id)
 
     # Fetch the next 10 events for the user
-    calendar_id = 'bimawansatrianto@gmail.com'
     response = service.list_events(calendar_id,
                                    max_results: 10,
                                    single_events: true,
@@ -70,8 +110,10 @@ module GoogleCalendar
       tempjson["text"] ||= {}
       tempjson["text"] = "#{event.summary}"
 
-      startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
-      endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
+      # startDate = Date.strptime("#{event.start.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
+      # endDate = Date.strptime("#{event.end.date_time}", '%FT%T%:z').strftime("%Y-%m-%d %T")
+      startDate = Time.at(Time.parse("#{event.start.date_time}").to_i)
+      endDate = Time.at(Time.parse("#{event.end.date_time}").to_i)
 
       tempjson["start_date"] ||= {}
       tempjson["start_date"] = startDate
@@ -95,6 +137,10 @@ module GoogleCalendar
     @result = JSON.dump(myjson)
   end
 
+  def fetchJson()
+    fetchUserJson('bimawansatrianto@gmail.com')
+  end
+
   def insertJson(json)
     # Initialize the API
     service = Google::Apis::CalendarV3::CalendarService.new
@@ -112,8 +158,8 @@ module GoogleCalendar
     event = {}
     event["summary"] ||= {}
     event["summary"] =  summary
-    isoStartDate = starttime.to_time.iso8601
-    isoEndDate = endtime.to_time.iso8601
+    isoStartDate = starttime
+    isoEndDate = endtime
     event["start"] ||= {}
     event["start"]["date_time"] ||= {}
     event["start"]["date_time"] = isoStartDate

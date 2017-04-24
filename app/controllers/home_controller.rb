@@ -1,14 +1,44 @@
 class HomeController < ApplicationController
   require 'json'
   require 'google_calendar'
+  require 'uri'
+  require 'net/http'
+  require 'open-uri'
   include GoogleCalendar
 
   def index
 
   end
 
+  def req_post
+    # result = open('https://httpbin.org/get')
+    # response = result.read.to_s
+    # puts response
+    uri = URI('https://httpbin.org/post')
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+
+    request = Net::HTTP::Post.new(uri.path)
+
+    request["HEADER1"] = 'VALUE1'
+    request["HEADER2"] = 'VALUE2'
+
+    response = https.request(request)
+    puts response.body
+
+    render :text => response.body
+  end
+
   def fetch
     render :json => fetchJson
+  end
+
+  def ask_permission
+
+  end
+
+  def permission_action
+    render :text => permission(params[:q])
   end
 
   def calendar_action
