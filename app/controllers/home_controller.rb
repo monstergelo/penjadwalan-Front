@@ -10,13 +10,17 @@ class HomeController < ApplicationController
 
   end
 
+  def schedule
+
+  end
+
   def req_post
     # result = open('https://httpbin.org/get')
     # response = result.read.to_s
     # puts response
-    uri = URI('https://httpbin.org/post')
+    uri = URI('http://ppl-scheduling.herokuapp.com/ppl-scheduling/api/v1/scheduler/')
     https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
+    https.use_ssl = false
 
     request = Net::HTTP::Post.new(uri.path)
 
@@ -26,7 +30,9 @@ class HomeController < ApplicationController
     response = https.request(request)
     puts response.body
 
-    render :text => response.body
+    data = JSON.parse(response.body)["result"]
+
+    render :text => JSON.dump(data)
   end
 
   def fetch
@@ -61,6 +67,20 @@ class HomeController < ApplicationController
         event[:end] ||= {}
         event[:end][:date_time] ||= {}
         event[:end][:date_time] = isoEndDate
+        event[:reminder] ||= {}
+        event[:reminder][:use_default] ||= {}
+        event[:reminder][:use_default] = false
+        event[:reminder][:overrides] ||= []
+        reminder = {}
+        reminder[:method] ||= {}
+        reminder[:minutes] ||= {}
+        reminder[:method] = "email"
+        reminder[:minutes] = 15
+        event[:reminder][:overrides] << reminder.clone
+        reminder[:method] = "popup"
+        reminder[:minutes] = 15
+        event[:reminder][:overrides] << reminder.clone
+
         puts event.to_hash
         insertJson(event.to_hash)
     end
