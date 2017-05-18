@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Topik To Mahasiswas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topik</th>
+      <th>Mahasiswa</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @topik_to_mahasiswas.each do |topik_to_mahasiswa| %>
+      <tr>
+        <td><%= topik_to_mahasiswa.topik_id %></td>
+        <td><%= topik_to_mahasiswa.mahasiswa_id %></td>
+        <td><%= link_to 'Show', topik_to_mahasiswa %></td>
+        <td><%= link_to 'Edit', edit_topik_to_mahasiswa_path(topik_to_mahasiswa) %></td>
+        <td><%= link_to 'Destroy', topik_to_mahasiswa, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Topik To Mahasiswa', new_topik_to_mahasiswa_path %>

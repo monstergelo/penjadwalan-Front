@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  NIP: MyString
+  nama: MyString
+  email: MyString
+
+two:
+  NIP: MyString
+  nama: MyString
+  email: MyString

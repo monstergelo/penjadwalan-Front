@@ -1,0 +1,37 @@
+<%= form_for(mahasiswa) do |f| %>
+  <% if mahasiswa.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(mahasiswa.errors.count, "error") %> prohibited this mahasiswa from being saved:</h2>
+
+      <ul>
+      <% mahasiswa.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :NIM %>
+    <%= f.text_field :NIM %>
+  </div>
+
+  <div class="field">
+    <%= f.label :nama %>
+    <%= f.text_field :nama %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kategori %>
+    <%= f.text_field :kategori %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

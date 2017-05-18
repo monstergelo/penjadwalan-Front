@@ -1,0 +1,2 @@
+class TopikToDosen < ApplicationRecord
+end
