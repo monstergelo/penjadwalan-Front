@@ -35,8 +35,8 @@ class HomeController < ApplicationController
     render :text => JSON.dump(data)
   end
 
-  def fetch
-    render :json => fetchJson
+  def fetch()
+    render :json => fetchUserJson('ikhwan.m1996@gmail.com')
   end
 
   def ask_permission
@@ -133,5 +133,24 @@ class HomeController < ApplicationController
         :sid => id,
         :tid => tid,
     }
+  end
+
+  def login
+
+  end
+
+  def get_email
+    $email = params[:user][:email]
+    #do your stuff with comments_from_form here
+    ret = fetchUserJson($email)
+    #Open view calendar
+    if ret != false then
+      system("explorer http://127.0.0.1:3000/home/index")
+    end
+  end
+
+  def get_code
+    code = params[:user][:code]
+    authorize_by_code($email, code)
   end
 end
