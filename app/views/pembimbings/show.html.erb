@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mahasiswa:</strong>
+  <%= @pembimbing.mahasiswa_id %>
+</p>
+
+<p>
+  <strong>Dosen:</strong>
+  <%= @pembimbing.dosen_id %>
+</p>
+
+<%= link_to 'Edit', edit_pembimbing_path(@pembimbing) %> |
+<%= link_to 'Back', pembimbings_path %>

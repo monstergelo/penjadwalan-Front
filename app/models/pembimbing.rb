@@ -1,0 +1,2 @@
+class Pembimbing < ApplicationRecord
+end

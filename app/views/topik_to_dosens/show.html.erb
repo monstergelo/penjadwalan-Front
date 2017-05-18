@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Topik:</strong>
+  <%= @topik_to_dosen.topik_id %>
+</p>
+
+<p>
+  <strong>Dosen:</strong>
+  <%= @topik_to_dosen.dosen_id %>
+</p>
+
+<%= link_to 'Edit', edit_topik_to_dosen_path(@topik_to_dosen) %> |
+<%= link_to 'Back', topik_to_dosens_path %>

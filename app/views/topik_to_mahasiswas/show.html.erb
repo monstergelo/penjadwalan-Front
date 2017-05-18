@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Topik:</strong>
+  <%= @topik_to_mahasiswa.topik_id %>
+</p>
+
+<p>
+  <strong>Mahasiswa:</strong>
+  <%= @topik_to_mahasiswa.mahasiswa_id %>
+</p>
+
+<%= link_to 'Edit', edit_topik_to_mahasiswa_path(@topik_to_mahasiswa) %> |
+<%= link_to 'Back', topik_to_mahasiswas_path %>

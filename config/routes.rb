@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :topik_to_mahasiswas
+  resources :topik_to_dosens
+  resources :pembimbings
+  resources :pengujis
+  resources :topiks
+  resources :mahasiswas
+  resources :dosens
   get 'home/index'
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"

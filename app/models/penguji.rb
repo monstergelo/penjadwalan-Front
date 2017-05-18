@@ -1,0 +1,2 @@
+class Penguji < ApplicationRecord
+end
