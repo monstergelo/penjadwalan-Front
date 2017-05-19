@@ -1,0 +1,2 @@
+class TopikToMahasiswa < ApplicationRecord
+end

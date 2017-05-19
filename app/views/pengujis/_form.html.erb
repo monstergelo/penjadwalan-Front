@@ -1,0 +1,27 @@
+<%= form_for(penguji) do |f| %>
+  <% if penguji.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(penguji.errors.count, "error") %> prohibited this penguji from being saved:</h2>
+
+      <ul>
+      <% penguji.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :mahasiswa_id %>
+    <%= f.number_field :mahasiswa_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :dosen_id %>
+    <%= f.number_field :dosen_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

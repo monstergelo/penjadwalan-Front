@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :topik_to_mahasiswas
+  resources :topik_to_dosens
+  resources :pembimbings
+  resources :pengujis
+  resources :topiks
+  resources :mahasiswas
+  resources :dosens
   get 'home/index'
   get 'home/kerja_praktik'
   get 'home/seminar_satu'

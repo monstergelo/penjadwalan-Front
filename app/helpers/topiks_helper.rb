@@ -1,0 +1,2 @@
+module TopiksHelper
+end

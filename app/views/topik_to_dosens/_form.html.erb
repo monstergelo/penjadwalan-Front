@@ -1,0 +1,27 @@
+<%= form_for(topik_to_dosen) do |f| %>
+  <% if topik_to_dosen.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(topik_to_dosen.errors.count, "error") %> prohibited this topik_to_dosen from being saved:</h2>
+
+      <ul>
+      <% topik_to_dosen.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :topik_id %>
+    <%= f.number_field :topik_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :dosen_id %>
+    <%= f.number_field :dosen_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

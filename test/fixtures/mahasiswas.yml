@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  NIM: MyString
+  nama: MyString
+  email: MyString
+  kategori: MyString
+
+two:
+  NIM: MyString
+  nama: MyString
+  email: MyString
+  kategori: MyString

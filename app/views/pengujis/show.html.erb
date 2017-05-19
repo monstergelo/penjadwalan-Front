@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mahasiswa:</strong>
+  <%= @penguji.mahasiswa_id %>
+</p>
+
+<p>
+  <strong>Dosen:</strong>
+  <%= @penguji.dosen_id %>
+</p>
+
+<%= link_to 'Edit', edit_penguji_path(@penguji) %> |
+<%= link_to 'Back', pengujis_path %>
