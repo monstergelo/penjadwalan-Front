@@ -51,3 +51,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #google calendar stuff
 gem 'google-api-client'
 gem 'certified'
+
+gem 'firebase'

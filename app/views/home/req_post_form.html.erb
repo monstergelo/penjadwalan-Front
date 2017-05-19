@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSON input</title>
+</head>
+<body>
+
+<%= form_tag("/home/send_json_post", method: "post") do %>
+    <%= label_tag(:q, "JSON:") %>
+    <%= text_area_tag(:json, "Hi, nice site", size: "24x6") %>
+    <%= submit_tag("send") %>
+<% end %>
+
+</body>
+</html>
