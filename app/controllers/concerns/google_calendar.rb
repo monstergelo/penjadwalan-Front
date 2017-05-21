@@ -14,7 +14,7 @@ module GoogleCalendar
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Google Calendar API Ruby Quickstart'
-  CLIENT_SECRETS_PATH = 'client_secret.json'
+  CLIENT_SECRETS_PATH = 'client_secret_3.json'
   CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                                "calendar-ruby-quickstart.yaml")
   SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
@@ -38,7 +38,7 @@ module GoogleCalendar
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
-    user_id = 'hendrikusbimawan@gmail.com'
+    user_id = 'ikhwan.m1996@gmail.com'
     credentials = authorizer.get_credentials(user_id)
     if credentials.nil?
       url = authorizer.get_authorization_url(
@@ -68,7 +68,7 @@ module GoogleCalendar
       # puts "Open the following URL in the browser and enter the " +
       #          "resulting code after authorization"
       # puts url
-      openbrowser("http://bit.ly/authorizecal")
+      #openbrowser("http://bit.ly/authorizecal")
       puts "opening "+url
       return false
     end
@@ -85,7 +85,7 @@ module GoogleCalendar
     credentials = authorizer.get_and_store_credentials_from_code(
         user_id: user_id, code: code, base_url: OOB_URI)
     fetchUserJson(user_id)
-    openbrowser('http://127.0.0.1:3000/home/index')
+    openbrowser('http://localhost:3000/home/index')
   end
 
   def permission(user_id)

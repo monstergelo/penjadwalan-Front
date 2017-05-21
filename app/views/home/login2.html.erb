@@ -45,7 +45,7 @@ limitations under the License
   <link rel="canonical" href="http://www.example.com/">
 -->
   <!--Specify Google Client ID-->
-  <meta name="google-signin-client_id" content="536442913486-3071h50tuqk3a8h368kamudep1ri03a5.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="536442913486-mrqs9cuvgg486g09porrptgq2bk135da.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/api.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <!--Import Google Icon Font-->
@@ -126,9 +126,25 @@ limitations under the License
           <script>
               function onSuccess(googleUser) {
                   console.log('SUCCESSSSS');
-                  console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-                  console.log('Email: '+googleUser.getBasicProfile().getEmail());
-//                  window.location="http://127.0.0.1:3000/home/index"
+                  var username = googleUser.getBasicProfile().getName();
+                  var email = googleUser.getBasicProfile().getEmail();
+                  console.log('Logged in as: ' + username);
+                  console.log('Email: '+ email);
+                  //Send POST request to server
+                  var http = new XMLHttpRequest();
+                  var url = "get_email";
+                  var params = "email="+email;
+                  http.open("POST", url, true);
+
+//Send the proper header information along with the request
+                  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                  http.onreadystatechange = function() {//Call a function when the state changes.
+                      if(http.readyState == 4 && http.status == 200) {
+                          alert(http.responseText);
+                      }
+                  }
+                  http.send(params);
               }
               function onFailure(error) {
                   console.log('FAILLLLL');
