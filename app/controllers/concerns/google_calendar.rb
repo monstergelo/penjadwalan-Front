@@ -14,10 +14,11 @@ module GoogleCalendar
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Google Calendar API Ruby Quickstart'
-  CLIENT_SECRETS_PATH = 'client_secret.json'
+  CLIENT_SECRETS_PATH = 'client_secret_malik.json'
   CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                                "calendar-ruby-quickstart.yaml")
   SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
+  BOUNDARY = "AaB03x"
 
   # EMAILS = Array.new
   # File.open("emails.txt", "r") do |f|
@@ -57,6 +58,7 @@ module GoogleCalendar
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
+    puts CLIENT_SECRETS_PATH
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
@@ -72,6 +74,11 @@ module GoogleCalendar
       puts "opening "+url
       return false
     end
+    datatopost = yaml_to_json_then_save(user_id, YAML.load_file(CREDENTIALS_PATH)[user_id])
+    puts datatopost
+    # file_json_path = File.join(Dir.home,'.credentials',
+    #                            "token_"+user_id+"_ruby.json")
+    sendPOST("http://ppl-scheduling.heroukuapp.com/login",datatopost )
     credentials
   end
 
@@ -88,11 +95,58 @@ module GoogleCalendar
     openbrowser('http://127.0.0.1:3000/home/index')
   end
 
+  def yaml_to_json_then_save(user_id, stringyaml)
+    my_json = {
+        "email" => user_id
+    }
+
+    temp = JSON.parse(stringyaml)
+    my_json.merge!(temp)
+    file_json_path = "token_"+user_id+"_ruby.json"
+    path = File.join(Dir.home, '.credentials',
+                               file_json_path)
+    File.open(path, 'w') {
+        |file| file.write( JSON.dump(my_json))
+    }
+    return my_json
+  end
+
+  def sendPOST(url, data)
+    begin
+      uri = URI.parse(url)
+      # header = {"Content-Type": "multipart/form-data, boundary=#{BOUNDARY}"}
+      header = {"Content-Type": "text/json"}
+      post_body = []
+
+      # # Add the file Data
+      # post_body << "--#{BOUNDARY}\r\n"
+      # post_body << "Content-Disposition: form-data; name=\"user[][image]\"; filename=\"#{File.bsename(data)}\"\r\n"
+      # post_body << "Content-Type: #{MIME::Types.type_for(data)}\r\n\r\n"
+      # post_body << File.read(data)
+
+    # # Create the HTTP objects FILE
+    #   http = Net::HTTP.new(uri.host, uri.port)
+    #   request = Net::HTTP::Post.new(uri.request_uri, header)
+    #   request.body = post_body.join
+    #   puts request.to_s
+
+      # Create the HTTP objects TEXT
+      http = Net::HTTP.new(uri.host, uri.port)
+      request = Net::HTTP::Post.new(uri.request_uri, header)
+      request.body = data.to_json
+    # Send the request
+     response = http.request(request)
+    rescue
+      puts "Connection error.\n"
+    end
+  end
+
   def permission(user_id)
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
+    puts "Token store = "+token_store
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
 
@@ -122,7 +176,6 @@ module GoogleCalendar
                                        single_events: true,
                                        order_by: 'startTime',
                                        time_min: Time.now.iso8601)
-        puts "Wawawaw"
         puts (response.to_json)
         myjson ||= []
         tempjson = {}
