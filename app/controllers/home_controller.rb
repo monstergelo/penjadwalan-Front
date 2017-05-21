@@ -140,7 +140,7 @@ class HomeController < ApplicationController
   end
 
   def get_email
-    $email = params[:user][:email]
+    $email = params[:email]
     #do your stuff with comments_from_form here
     ret = fetchUserJson($email)
     #Open view calendar
@@ -150,7 +150,11 @@ class HomeController < ApplicationController
   end
 
   def get_code
-    code = params[:user][:code]
+    code = params[:code]
     authorize_by_code($email, code)
+  end
+
+  def user_mng
+
   end
 end
