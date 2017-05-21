@@ -1,0 +1,158 @@
+
+<!doctype html>
+<!--
+Material Design Lite
+Copyright 2015 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>GRIMPS</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
+    <!--
+    <link rel="canonical" href="http://www.example.com/">
+-->
+    <!--Specify Google Client ID-->
+    <meta name="google-signin-client_id" content="536442913486-7g050iaguhe8luh8ptasj1sbusooglga.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/api.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="public/css/materialize.min.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="public/css/grimps.css">
+    <style>
+        #view-source {
+            position: fixed;
+            display: block;
+            right: 0;
+            bottom: 0;
+            margin-right: 40px;
+            margin-bottom: 40px;
+            z-index: 900;
+        }
+
+        html {
+            background: url(images/bg.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="first-body">
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<nav class="nav-extended">
+    <div style="margin-left: 40px">
+        <div class="nav-wrapper">
+            <span class="nav-title">Departemen Teknik Informatika</span>
+            <ul class="right hide-on-med-and-down">
+                <li><img src="https://upload.wikimedia.org/wikipedia/id/9/95/Logo_Institut_Teknologi_Bandung.png" width="20%" align="right" style="margin-right: 20px; margin-top: 20px"></li>
+            </ul>
+        </div>
+        <div style="padding-bottom: 30px">
+            <div class="nav-content">
+                <font style="font-size: 20px">Institut Teknologi Bandung</font>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="first-container mdl-grid mdl-grid--no-spacing">
+    <div class="mdl-cell--12-col-desktop">
+        <!--
+                    <div class="grimps-header grimps-violet verification-header grimps-text-lato">
+                        <div class="header-title grimps-text-plain grimps-text-big">WELCOME</div>
+                    </div>
+        -->
+        <br/>
+        <br/>
+        <div class="logo-first-page">
+            <img  src='images/logo2.png' alt='GRIMPS'>
+            <h1 class="grimps-text-alcu">APLIKASI PENJADWALAN</h1>
+
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <center>
+            <p style="font-size:17px">Seminar KP, Seminar TA, Sidang TA</p>
+        </center>
+        <main class="login-buttons">
+            <div class="mdl-grid mdl-grid--no-spacing">
+
+                <div class="mdl-cell mdl-cell--6-col">
+                    <div id="my-signin2"></div>
+                    <script>
+                        function onSuccess(googleUser) {
+                            console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+                            console.log('Email: '+googleUser.getBasicProfile().getEmail());
+                            //window.location="dsn-calendar.html"
+                        }
+                        function onFailure(error) {
+                            console.log(error);
+                        }
+                        function renderButton() {
+                            gapi.signin2.render('my-signin2', {
+                                'scope': 'profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly',
+                                'width': 240,
+                                'height': 50,
+                                'longtitle': true,
+                                'theme': 'dark',
+                                'onsuccess': onSuccess,
+                                'onfailure': onFailure
+                            });
+                        }
+                    </script>
+
+                    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+                </div>
+        </main>
+        <script src="public/js/jquery.min.js"></script>
+        <script src="public/js/material.min.js"></script>
+        <script src="public/js/first-page.js"></script>
+        <script src="public/js/login.js"></script>
+    </div>
+</div>
+</body>
+</html>
