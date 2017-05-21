@@ -39,7 +39,7 @@ module GoogleCalendar
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
-    user_id = 'ikhwan.m1996@gmail.com'
+    user_id = 'hendrikusbimawan@gmail.com'
     credentials = authorizer.get_credentials(user_id)
     if credentials.nil?
       url = authorizer.get_authorization_url(
@@ -70,7 +70,7 @@ module GoogleCalendar
       # puts "Open the following URL in the browser and enter the " +
       #          "resulting code after authorization"
       # puts url
-      #openbrowser("http://bit.ly/authorizecal")
+      openbrowser("http://bit.ly/2q5740h")
       puts "opening "+url
       return false
     end
@@ -78,7 +78,7 @@ module GoogleCalendar
     puts datatopost
     # file_json_path = File.join(Dir.home,'.credentials',
     #                            "token_"+user_id+"_ruby.json")
-    sendPOST("http://ppl-scheduling.heroukuapp.com/login",datatopost )
+    sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
     credentials
   end
 
@@ -92,10 +92,11 @@ module GoogleCalendar
     credentials = authorizer.get_and_store_credentials_from_code(
         user_id: user_id, code: code, base_url: OOB_URI)
     fetchUserJson(user_id)
-    openbrowser('http://localhost:3000/home/index')
+    openbrowser('http://127.0.0.1:3000/home/index')
   end
 
   def yaml_to_json_then_save(user_id, stringyaml)
+    jsonToken = {}
     my_json = {
         "email" => user_id
     }
@@ -105,39 +106,32 @@ module GoogleCalendar
     file_json_path = "token_"+user_id+"_ruby.json"
     path = File.join(Dir.home, '.credentials',
                                file_json_path)
+
+    jsonToken[:token] ||= {}
+    jsonToken[:token] = my_json
     File.open(path, 'w') {
-        |file| file.write( JSON.dump(my_json))
+        |file| file.write( JSON.dump(jsonToken))
     }
-    return my_json
+    return jsonToken
   end
 
   def sendPOST(url, data)
     begin
-      uri = URI.parse(url)
-      # header = {"Content-Type": "multipart/form-data, boundary=#{BOUNDARY}"}
-      header = {"Content-Type": "text/json"}
-      post_body = []
-
-      # # Add the file Data
-      # post_body << "--#{BOUNDARY}\r\n"
-      # post_body << "Content-Disposition: form-data; name=\"user[][image]\"; filename=\"#{File.bsename(data)}\"\r\n"
-      # post_body << "Content-Type: #{MIME::Types.type_for(data)}\r\n\r\n"
-      # post_body << File.read(data)
-
-    # # Create the HTTP objects FILE
-    #   http = Net::HTTP.new(uri.host, uri.port)
-    #   request = Net::HTTP::Post.new(uri.request_uri, header)
-    #   request.body = post_body.join
-    #   puts request.to_s
+      uri = URI(url)
 
       # Create the HTTP objects TEXT
       http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.request_uri, header)
-      request.body = data.to_json
+      http.use_ssl = false
+      request = Net::HTTP::Post.new(uri.path)
+      request["Content-Type"] = "application/json"
+      request.body = JSON.dump(data)
+      puts "REQUEST : "+request.body
     # Send the request
-     response = http.request(request)
-    rescue
+      response = http.request(request)
+      puts "RESPON :"+response.body
+    rescue Exception=>msg
       puts "Connection error.\n"
+      puts msg
     end
   end
 
@@ -176,7 +170,7 @@ module GoogleCalendar
                                        single_events: true,
                                        order_by: 'startTime',
                                        time_min: Time.now.iso8601)
-        puts (response.to_json)
+        # puts (response.to_json)
         myjson ||= []
         tempjson = {}
         puts "No upcoming events found" if response.items.empty?
@@ -196,23 +190,23 @@ module GoogleCalendar
           tempjson["end_date"] ||= {}
           tempjson["end_date"] = endDate
           myjson << tempjson.clone
-          puts JSON.dump(tempjson)
+          # puts JSON.dump(tempjson)
           puts "*****************************"
-          puts JSON.dump(myjson)
+          # puts JSON.dump(myjson)
           puts "*****************************"
         end
 
         puts "============================="
         puts "============================="
         puts "============================="
-        puts JSON.dump(myjson)
+        # puts JSON.dump(myjson)
         # File.open("public/jadwal.json", 'w') {
         #     |file| file.write( JSON.dump(myjson))
         # }
 
         @result = JSON.dump(myjson)
       rescue
-        openbrowser('http://bit.ly/authorizecal')
+        openbrowser('http://bit.ly/2q5740h')
       end
     else
       return false
