@@ -123,8 +123,8 @@ limitations under the License
     <form action="get_email" id="new_user" method="post">
         <div class="input-field col s6 l6">
           <i class="material-icons prefix">account_circle</i>
-          <input id="user_email" name="user[email]" size="30" type="email" value="" required/>
           <label for="user_email">Email<br /></label>
+          <input placeholder="Masukkan email google Anda, lalu tekan Check" id="user_email" name="user[email]" size="30" type="email" value="" required/>
           <input class="btn" name="commit_code" type="submit" value="Check" />
         </div>
     </form>
@@ -135,8 +135,8 @@ limitations under the License
     <form action="get_code" id="code" method="post">
       <div class="input-field col s6 l6">
         <i class="material-icons prefix">content_paste</i>
-        <input id="user_code" name="user[code]" size="100" type="text" value="" required/>
         <label for="code">Paste kode di sini<br /></label>
+        <input placeholder="Masukkan kode jika Anda pertama login" id="user_code" name="user[code]" size="100" type="text" value="" required/>
         <input class="btn" name="commit_code" type="submit" value="Accept" />
       </div>
     </form>
