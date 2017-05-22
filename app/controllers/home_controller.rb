@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+  protect_from_forgery prepend: true
+  skip_before_filter  :verify_authenticity_token
+  before_action :authenticate_user!, :except => [:login, :get_code, :get_email]
   require 'json'
   require 'google_calendar'
   require 'uri'
@@ -794,7 +797,8 @@ class HomeController < ApplicationController
     ret = fetchUserJson($email)
     #Open view calendar
     if ret != false then
-      system("explorer http://127.0.0.1:3000/home/index")
+      puts("redirecting...")
+      redirect_to user_session_url(email: $email, status: 'proceed'), notice: 'Succeed.'
     end
   end
 

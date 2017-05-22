@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+      sessions: 'users/sessions',
+      passwords: 'users/passwords',
+      registrations: 'users/registrations'
+  }
   resources :topik_to_mahasiswas
   resources :topik_to_dosens
   resources :pembimbings
@@ -6,7 +11,7 @@ Rails.application.routes.draw do
   resources :topiks
   resources :mahasiswas
   resources :dosens
-  get 'home/index'
+  root 'home#index'
   get 'home/kerja_praktik'
   get 'home/seminar_satu'
   get 'home/seminar_dua'

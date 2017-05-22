@@ -7,18 +7,25 @@
     <!--</form>-->
     <div class="mdl-layout-spacer"></div>
     <!-- Left aligned menu below button -->
+    <ul>
+        <li title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer">
+          play_arrow
+        </li>
 
-    <div title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer">
-      play_arrow
-    </div>
+        <li title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
+          refresh
+        </li>
 
-    <div title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
-      refresh
-    </div>
+        <li title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" >
+          <% if user_signed_in? %>
+              <%= link_to "exit_to_app", destroy_user_session_path, :method => :delete  %>
+          <% else %>
+            <%= link_to "exit_to_app", login_path  %>
+          <% end %>
+        </li>
 
-    <div title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="window.location.href='login.html'">
-      exit_to_app
-    </div>
+    </ul>
+
 
     <!--<li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>-->
     <!--<ul class="grimps-text-lato mdl-menu mdl-menu&#45;&#45;bottom-right mdl-js-menu mdl-js-ripple-effect" for="notif">-->

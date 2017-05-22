@@ -53,3 +53,7 @@ gem 'google-api-client'
 gem 'certified'
 
 gem 'firebase'
+
+# user
+gem 'devise'
+gem 'toastr-rails'

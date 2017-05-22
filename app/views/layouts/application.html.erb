@@ -65,6 +65,14 @@
   </head>
 
   <body>
+      <% unless flash.empty? %>
+          <script type="text/javascript">
+              <% flash.each do |f| %>
+              <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+              toastr['<%= type %>']('<%= f[1] %>');
+              <% end %>
+          </script>
+      <% end %>
       <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
         <%= render 'layouts/header' %>
         <%= render 'layouts/left_part_header' %>
