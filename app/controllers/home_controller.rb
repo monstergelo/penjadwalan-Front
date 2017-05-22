@@ -785,7 +785,7 @@ class HomeController < ApplicationController
   end
 
   def login
-
+    render :layout => false
   end
 
   def get_email
