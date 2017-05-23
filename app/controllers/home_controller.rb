@@ -6,6 +6,12 @@ class HomeController < ApplicationController
   require 'open-uri'
   include GoogleCalendar
 
+  $events = []
+
+  def take_attendee (input)
+    input[/#{Regexp.escape('###')}(.*?)#{Regexp.escape('###')}/m, 1]
+  end
+
   def index
 
   end
@@ -729,6 +735,23 @@ class HomeController < ApplicationController
         reminder[:method] = "popup"
         reminder[:minutes] = 15
         event[:reminder][:overrides] << reminder.clone
+
+        att_temp = take_attendee(event[:summary]).split(",")
+
+        event[:attendees] ||= {}
+        event[:attendees][:email] ||= {}
+        attendees = {}
+
+
+        puts att_temp[0]
+
+        att_temp.length.times do |i|
+          event[:attendees][:email] = att_temp[i]
+        end
+
+        puts(event[:attendees])
+
+        $events.insert(event)
 
         puts event.to_hash
         insertJson(event.to_hash)
