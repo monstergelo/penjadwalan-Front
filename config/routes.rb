@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'home/seminar_dua'
   get 'home/sidang'
   get 'home/test_calendar_process'
+  get 'home/tambah_mahasiswa'
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
   match "home/schedule", :to => "home#schedule", :as => "schedule", :via => "get"
