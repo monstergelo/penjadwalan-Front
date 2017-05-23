@@ -746,7 +746,7 @@ class HomeController < ApplicationController
         att_temp.each do |att|
           attendees[:email] = att
           puts attendees[:email]
-          event[:attendees] << attendees
+          event[:attendees] << attendees.clone
           puts event[:attendees]
         end
 
