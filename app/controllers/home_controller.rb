@@ -738,20 +738,19 @@ class HomeController < ApplicationController
 
         att_temp = take_attendee(event[:summary]).split(",")
 
-        event[:attendees] ||= {}
-        event[:attendees][:email] ||= {}
+        event[:attendees] ||= []
+
         attendees = {}
+        attendees[:email] ||= {}
 
-
-        puts att_temp[0]
-
-        att_temp.length.times do |i|
-          event[:attendees][:email] = att_temp[i]
+        att_temp.each do |att|
+          attendees[:email] = att
+          puts attendees[:email]
+          event[:attendees] << attendees
+          puts event[:attendees]
         end
 
-        puts(event[:attendees])
-
-        $events.insert(event)
+        $events << event
 
         puts event.to_hash
         insertJson(event.to_hash)
