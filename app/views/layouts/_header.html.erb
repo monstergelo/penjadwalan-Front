@@ -8,13 +8,22 @@
     <div class="mdl-layout-spacer"></div>
     <!-- Left aligned menu below button -->
     <ul>
-        <li title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer">
-          play_arrow
-        </li>
+        <% if current_user.superadmin_role?  %>
+            <li title="Dashboard admin" id="face" class="material-icons" style="margin-right: 30px; cursor:pointer">
+              <% if user_signed_in? %>
+                  <%= link_to rails_admin_path  %>
+              <% end %>
+            </li>
 
-        <li title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
-          refresh
-        </li>
+            <li title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer">
+              play_arrow
+            </li>
+
+            <li title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
+              refresh
+            </li>
+        <% end %>
+
 
         <li title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" >
           <% if user_signed_in? %>

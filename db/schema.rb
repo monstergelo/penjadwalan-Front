@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522192806) do
+ActiveRecord::Schema.define(version: 20170523000656) do
 
   create_table "calendar_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "start_date"
@@ -87,6 +87,9 @@ ActiveRecord::Schema.define(version: 20170522192806) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
+    t.boolean  "superadmin_role",        default: false
+    t.boolean  "dosen_role",             default: false
+    t.boolean  "student_role",           default: true
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
