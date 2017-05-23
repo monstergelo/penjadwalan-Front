@@ -9,9 +9,9 @@
     <!-- Left aligned menu below button -->
     <ul>
         <% if current_user.superadmin_role?  %>
-            <li title="Dashboard admin" id="face" class="material-icons" style="margin-right: 30px; cursor:pointer">
+            <li title="Dashboard admin" id="dashboard-admin" class="material-icons" style="margin-right: 30px; cursor:pointer">
               <% if user_signed_in? %>
-                  <%= link_to rails_admin_path  %>
+                  <%= link_to "face", rails_admin_path  %>
               <% end %>
             </li>
 

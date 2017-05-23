@@ -795,10 +795,13 @@ class HomeController < ApplicationController
     $email = params[:user][:email]
     #do your stuff with comments_from_form here
     ret = fetchUserJson($email)
+    puts(ret)
     #Open view calendar
     if ret != false then
       puts("redirecting...")
       redirect_to user_session_url(email: $email, status: 'proceed'), notice: 'Succeed.'
+    else
+      redirect_to user_session_url(email: $email, status: 'failed'), notice: 'Failed.'
     end
   end
 

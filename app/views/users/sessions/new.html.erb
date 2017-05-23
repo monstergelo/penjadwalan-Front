@@ -98,9 +98,14 @@
     $(document).ready(function(){
         if($('#status').val() == "proceed") {
             $('#submit').click();
+        } else if($('#status').val() == "failed"){
+            window.location.href = "http://127.0.0.1:3000/users/sign_up";
         } else {
-          // window.location.href = "http://127.0.0.1:3000/home/login";
+            // Your delay in milliseconds
+            var delay = 1800;
+            setTimeout(function(){ window.location = "http://127.0.0.1:3000/home/login"; }, delay);
         }
+
     });
 </script>
 
