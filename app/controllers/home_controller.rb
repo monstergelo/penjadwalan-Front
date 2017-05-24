@@ -1116,7 +1116,29 @@ class HomeController < ApplicationController
     puts response.body
 
     scheduleEventsSaveDatabase(response.body, event_type)
+
+    fetch_result
   end
 
+  def routeSchedule
+    scheduleEvents(params[:event_type])
+  end
+  #########################################################################
+  def fetch_result()
+    listScheduled = ScheduledEvent.all
+    event = []
+    listScheduled.each do |se|
+      temp = {}
+      temp[:text] = {}
+      temp[:text] = se.event_name
+      temp[:start_date] = {}
+      temp[:start_date] = se.start
+      temp[:end_date] = {}
+      temp[:end_date] = se.end
+
+      event << temp
+    end
+    render :json => JSON.dump(event)
+  end
 #TRUE END
 end

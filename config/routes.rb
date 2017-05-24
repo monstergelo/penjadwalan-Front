@@ -24,10 +24,12 @@ Rails.application.routes.draw do
   get 'home/sidang'
   get 'home/test_calendar_process'
   get 'home/index'
+  get "home/routeSchedule/:event_type", :to => "home#routeSchedule", :as => "routeSchedule"
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
   match "home/schedule", :to => "home#schedule", :as => "schedule", :via => "get"
   match "home/req_post", :to => "home#req_post", :as => "req_post", :via => "get"
+  match "home/fetch_result", :to => "home#fetch_result", :as => "fetch_result", :via => "get"
   match "home/req_post_form", :to => "home#req_post_form", :as => "req_post_form", :via => "get"
   match "home/send_json_post", :to => "home#send_json_post", :as => "send_json_post", :via => "post"
   match "home/test_request", :to => "home#test_request", :as => "test_request", :via => "get"
