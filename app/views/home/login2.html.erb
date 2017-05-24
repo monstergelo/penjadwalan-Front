@@ -1,4 +1,8 @@
-
+<div>
+  <% if current_user %>
+      Signed in as <strong><%= current_user.name %></strong>!
+      <%= link_to "Sign out", signout_path, id: "sign_out" %>
+  <% else %>
 <!doctype html>
 <!--
 Material Design Lite
@@ -45,7 +49,7 @@ limitations under the License
   <link rel="canonical" href="http://www.example.com/">
 -->
   <!--Specify Google Client ID-->
-  <meta name="google-signin-client_id" content="536442913486-mrqs9cuvgg486g09porrptgq2bk135da.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="806339176753-cmb1mv9g8itmir0p4ucqh0ibuhbl6s0k.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/api.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <!--Import Google Icon Font-->
@@ -174,3 +178,5 @@ limitations under the License
 </div>
 </body>
 </html>
+  <% end %>
+</div>

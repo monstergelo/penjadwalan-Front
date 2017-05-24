@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
+  get 'home/show'
+
   get 'home/index'
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
@@ -13,6 +23,23 @@ Rails.application.routes.draw do
   match "home/get_code", :to => "home#get_code", :as => "get_code", :via => "post"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  #FOR LOGIN2
+  #TEST
   match "home/login2", :to => "home#login2", :as => "login2", :via => "get"
+  match "home/login3", :to => "home#login3", :as => "login3", :via => "get"
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+
+  resources :sessions, only: [:create, :destroy]
+  resource :home, only: [:show]
+
+  root to: "home#show"
+
+  get '/redirect', to: 'home#redirect', as: 'redirect'
+  get '/callback', to: 'home#callback', as: 'callback'
+  get '/calendars', to: 'home#calendars', as: 'calendars'
+
+  get '/events/:calendar_id', to: 'home#events', as: 'events', calendar_id: /[^\/]+/
+  post '/events/:calendar_id', to: 'home#new_event', as: 'new_event', calendar_id: /[^\/]+/
 end
