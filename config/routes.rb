@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tokens
   resources :scheduled_events
   resources :periods
   resources :rooms

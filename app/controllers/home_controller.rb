@@ -815,7 +815,308 @@ class HomeController < ApplicationController
   #database query
   #####################################################
   def test_query
-    puts Dosen.all
-    puts Mahasiswa.all
+    puts "DOSEN==============================="
+    Dosen.all.each do |dosen|
+      puts dosen.nama
+    end
+    puts "Mahasiswa==============================="
+    Mahasiswa.all.each do |mahasiswa|
+      puts mahasiswa.nama
+    end
+    puts "EVENT==============================="
+    Event.all.each do |event|
+      puts event.name
+    end
+    puts "PEMBIMBING==============================="
+    Pembimbing.all.each do |p|
+      puts "dosen "+p.dosen_id.to_s
+      puts "mahasiswa "+p.mahasiswa_id.to_s
+    end
+    puts "PENGUJI==============================="
+    Penguji.all.each do |p|
+      puts "dosen "+p.dosen_id.to_s
+      puts "mahasiswa "+p.mahasiswa_id.to_s
+    end
+    puts "PERIOD==============================="
+    Period.all.each do |p|
+      puts p.start
+    end
+    puts "ROOM==============================="
+    Room.all.each do |r|
+      puts r.name
+    end
+    puts "SCHEDULED==============================="
+    ScheduledEvent.all.each do |s|
+      puts s.student_id
+    end
   end
+#########################################################################
+  def getAllTokenAndEmail
+    listToken = Token.all
+    listDosen = Dosen.all
+    period = Period.where(:period_type => 0)[0]
+
+    @query_token = {}
+    @query_token[:data] = {}
+
+    @query_token[:data][:period] = {}
+    @query_token[:data][:period][:start] = {}
+    @query_token[:data][:period][:start] = period.start.to_time.iso8601
+    @query_token[:data][:period][:end] = {}
+    @query_token[:data][:period][:end] = period.end.to_time.iso8601
+
+    @query_token[:data][:accounts] = []
+
+    listDosen.each do |t|
+      #puts JSON.parse(t.token_json)
+      temp_json = {}
+
+      temp_json[:email] = {}
+      temp_json[:email] = t.email
+
+      temp_token = getDosenToken(listToken, t.NIP)
+      temp = JSON.parse(temp_token.token_json)['token']
+
+      temp_json[:token] = {}
+      temp_json[:token][:access_token] = {}
+      temp_json[:token][:access_token] = temp['access_token']
+      temp_json[:token][:refresh_token] = {}
+      temp_json[:token][:refresh_token] = temp['refresh_token']
+      temp_json[:token][:expiration_time_millis] = {}
+      temp_json[:token][:expiration_time_millis] = temp['expiration_time_millis']
+
+      @query_token[:data][:accounts] << temp_json
+    end
+
+    return @query_token
+  end
+
+  def getSchedulingRawData(event_type)
+    @listLecturer    = Dosen.all
+    @listStudent     = Mahasiswa.all
+    @listPembimbing  = Pembimbing.all
+    @listPenguji     = Penguji.all
+    @listRoom        = Room.all
+    @listEvent       = Event.all
+    period = Period.where(:period_type => 0)[0]
+
+    @query_json = {}
+    @query_json[:data] = {}
+    @query_json[:data][:period] = {}
+    @query_json[:data][:period][:start] = {}
+    @query_json[:data][:period][:start] = period.start.to_time.iso8601
+    @query_json[:data][:period][:end] = {}
+    @query_json[:data][:period][:end] = period.end.to_time.iso8601
+
+    #assemble-room==============================================
+    @query_json[:data][:listRoom] = []
+    @listRoom.each do |r|
+      room_json = {}
+      room_json[:id] = {}
+      room_json[:id] = r.name
+      room_json[:events] = []
+      room_events = getRoomEvents(@listEvent, r.name)
+      room_events.each do |r_event|
+        room_event = {}
+        room_event[:start] = {}
+        room_event[:start] = r_event.start.to_time.iso8601
+        room_event[:end] = {}
+        room_event[:end] = r_event.end.to_time.iso8601
+        room_json[:events] << room_event
+      end
+      @query_json[:data][:listRoom] << room_json
+    end
+
+    #assemble-lecturer==============================================
+    @query_json[:data][:listLecturer] = []
+    @listLecturer.each do |l|
+      lecturer_json = {}
+      lecturer_json[:id] = {}
+      lecturer_json[:id] = l.NIP
+      lecturer_json[:events] = []
+      lecturer_events = getLecturerEvents(@listEvent, l.NIP)
+      lecturer_events.each do |l_event|
+        lecturer_event = {}
+        lecturer_event[:start] = {}
+        lecturer_event[:start] = l_event.start.to_time.iso8601
+        lecturer_event[:end] = {}
+        lecturer_event[:end] = l_event.end.to_time.iso8601
+        lecturer_json[:events] << lecturer_event
+      end
+      @query_json[:data][:listLecturer] << lecturer_json
+    end
+
+    #assemble-student==============================================
+    @query_json[:data][:listStudent] = []
+    @listStudent.each do |s|
+      student_json = {}
+      student_json[:id] = {}
+      student_json[:id] = s.NIM
+      student_pembimbings = getStudentPembimbing(@listPembimbing, s.NIM)
+      student_pengujis = getStudentPenguji(@listPenguji, s.NIM)
+      student_json[:idPembimbing] = []
+      student_json[:idPembimbing] << student_pembimbings
+      student_json[:idPenguji] = []
+      student_json[:idPenguji] << student_pengujis
+      @query_json[:data][:listStudent] << student_json
+    end
+
+    return @query_json
+  end
+  #########################################################################
+  def getDosenToken(tokens, nip)
+    tokens.each do |t|
+      if t.owner_id == nip
+        return t
+      end
+    end
+  end
+  #########################################################################
+  def getRoomEvents(events, id)
+    result = []
+    events.each do |e|
+      if e.event_type == 99
+        if e.owner_id.to_s == id.to_s
+          result << e
+        end
+      end
+    end
+
+    return result
+  end
+
+  def getLecturerEvents(events, nip)
+    result = []
+    events.each do |e|
+      if e.event_type == 8
+        if e.owner_id.to_s == nip.to_s
+          result << e
+        end
+      end
+    end
+
+    return result
+  end
+
+  def getStudentPembimbing(pembimbings, nim)
+    result = []
+    pembimbings.each do |p|
+      if p.mahasiswa_id.to_s == nim.to_s
+        result << p.dosen_id
+      end
+    end
+
+    return result
+  end
+
+  def getStudentPenguji(pengujis, nim)
+    result = []
+    pengujis.each do |p|
+      if p.mahasiswa_id.to_s == nim.to_s
+        result << p.dosen_id
+      end
+    end
+
+    return result
+  end
+
+  def getLecturerFromEmail(email)
+    dosen = Dosen.all
+    dosen.each do |d|
+      if d.email.to_s == email.to_s
+        return d.NIP
+      end
+    end
+  end
+  #########################################################################
+  def testInsert
+    Event.new do |new_e|
+      new_e.start = Time.now
+      new_e.end = Time.now
+      new_e.name = "opopopo"
+      new_e.event_type = 12
+      new_e.owner_id = "67890"
+      new_e.google_event_id = "7890"
+
+      new_e.save
+    end
+  end
+
+  def updateEventsDatabase(entry)
+    #delete all lecturer event
+    lecturers = Event.where(:event_type => 8)
+    lecturers.each do |l|
+      l.destroy
+    end
+
+    #insert entry
+    data = JSON.parse(entry)
+    data.each do |d|
+      d['events'].each do |e|
+        Event.new do |new_e|
+          new_e.start = e['start']
+          new_e.end = e['end']
+          new_e.name = e['name']
+          new_e.event_type = 8
+          new_e.owner_id = getLecturerFromEmail(d['email'])
+          new_e.google_event_id = e['id']
+
+          new_e.save
+        end
+      end
+    end
+  end
+
+  def scheduleEventsSaveDatabase(entry, event_type)
+    #insert entry
+    data = JSON.parse(entry)
+    data.each do |d|
+      ScheduledEvent.new do |new_se|
+        new_se.start = d['start']
+        new_se.end = d['end']
+        new_se.student_id = d['idStudent']
+        new_se.room_id = 'Weissnat LLC'
+        new_se.event_type = event_type
+        new_se.event_name = d['idStudent']
+
+        new_se.save
+      end
+    end
+  end
+  #########################################################################
+  def updateEvents
+    puts JSON.dump(getAllTokenAndEmail())
+    puts "================================="
+    uri = URI('http://ppl-scheduling.herokuapp.com/allevents')
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = false
+
+    request = Net::HTTP::Post.new(uri.path)
+    request["Content-Type"] = "application/json"
+    request.body = JSON.dump(getAllTokenAndEmail())
+
+    response = https.request(request)
+    puts response.body
+
+    updateEventsDatabase(response.body)
+  end
+  #########################################################################
+  def scheduleEvents(event_type)
+    puts JSON.dump(getSchedulingRawData(event_type))
+    puts "================================="
+    uri = URI('http://ppl-scheduling.herokuapp.com/schedule')
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = false
+
+    request = Net::HTTP::Post.new(uri.path)
+    request["Content-Type"] = "application/json"
+    request.body = JSON.dump(getSchedulingRawData(event_type))
+
+    response = https.request(request)
+    puts response.body
+
+    scheduleEventsSaveDatabase(response.body, event_type)
+  end
+
+#TRUE END
 end

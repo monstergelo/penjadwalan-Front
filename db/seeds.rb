@@ -28,19 +28,42 @@
 #   person.zip     = Faker::Address.zip_code
 # end
 
-[Dosen, Mahasiswa, Event, Penguji, Pembimbing, Period, Room, ScheduledEvent].each(&:delete_all)
+[Token, Dosen, Mahasiswa, Event, Penguji, Pembimbing, Period, Room, ScheduledEvent].each(&:delete_all)
 @listDosen = []
 @listMahasiswa = []
 @index = 0
 @listRoom = []
 
+
 #######################################################################
-Dosen.populate 10 do |dosen|
+@listEmail = ["13514052@std.stei.itb.ac.id", "ikhwan.m1996@gmail.com", "ldfmuslimstei@gmail.com"]
+@listToken = []
+
+@listToken << "{\"token\":{\"email\":\"13514052@std.stei.itb.ac.id\", \"client_id\":\"1031302495796-ij3m49g7g0p5p3523c9vltui4d1csafa.apps.googleusercontent.com\", \"access_token\":\"ya29.GltUBFhCKgXcnQ-4gbe2tp0ghfMKS-SwhmnNBy3GGb9MqaP-f2TfmbJYSLxl8lrN3J92LpTqIz--gPBq5OLsZLVQVwLot6-cxpPzKg-GCFEOttz7PoewmnJoHaCX\", \"refresh_token\":\"1/W-T1ITcO3keIdCgmGPIV62tfAyLSj98f0keg4KacZ-U\", \"scope\":[\"https://www.googleapis.com/auth/calendar\"], \"expiration_time_millis\":1495638351000}}"
+
+@listToken << "{\"token\":{\"email\":\"ikhwan.m1996@gmail.com\", \"client_id\":\"1031302495796-ij3m49g7g0p5p3523c9vltui4d1csafa.apps.googleusercontent.com\", \"access_token\":\"ya29.GltUBGKQ5k4Lfj5WYad5JiVKjNAVP5QphP9Ald4Jictmn08gVxXlHCWiXDztM6Klx3ylAQTRItrC_X2DvaDUwJLnhXTp1x0kTNWPo7XtVOsRrQdAfZi-AYLUfJjH\", \"refresh_token\":\"1/rOry9TqPXSsQf5BivEFN5D6bS2LldLYTyTq_172LQio\", \"scope\":[\"https://www.googleapis.com/auth/calendar\"], \"expiration_time_millis\":1495638207000}}"
+
+@listToken << "{\"token\":{\"email\":\"ldfmuslimstei@gmail.com\", \"client_id\":\"1031302495796-ij3m49g7g0p5p3523c9vltui4d1csafa.apps.googleusercontent.com\", \"access_token\":\"ya29.GltUBAvbCLiYK0nUgKl2fOI32liZa6jhDT9FQDHYKQjtz6ru8mDfrxHXk2eStUOKLINWK1oetvsrqT7GD7Bs-PAIqXOnq-E2Q6AFgTdTGq8A-edsoERzHzojYu26\", \"refresh_token\":\"1/0o70dzzF0wKk4WW9hNDq3NriZskVVeIg1GusDqJbyVQ\", \"scope\":[\"https://www.googleapis.com/auth/calendar\"], \"expiration_time_millis\":1495638408000}}"
+
+#######################################################################
+Dosen.populate 3 do |dosen|
   dosen.NIP   = '1234567'+rand(10..99).to_s
-  dosen.email = Faker::Internet.email
+  dosen.email = @listEmail[@index]
   dosen.nama  = Faker::Name.name
   @listDosen << dosen
+  @index = @index + 1
 end
+@index = 0
+
+# @listDosen = Dosen.all
+@dosenlen = @listDosen.length
+#######################################################################
+Token.populate 3 do |token|
+  token.owner_id = @listDosen[@index].NIP
+  token.token_json = @listToken[@index]
+  @index = @index + 1
+end
+@index = 0
 #######################################################################
 Mahasiswa.populate 10 do |mahasiswa|
   mahasiswa.NIM       = '135140'+rand(10..99).to_s
@@ -54,20 +77,20 @@ Event.populate 20 do |event|
   event.start       = Time.at(Time.now.to_i + rand(2.months))
   event.end         = Time.at(event.start.to_i + rand(3.hours))
   event.name        = Faker::Company.buzzword
-  event.owner_id    = @listDosen[rand(10)].NIP
+  event.owner_id    = @listDosen[rand(@dosenlen)].NIP
   event.event_type  = 8
 end
 #######################################################################
 Pembimbing.populate 10 do |pembimbing|
   pembimbing.mahasiswa_id = @listMahasiswa[@index].NIM
-  pembimbing.dosen_id     = @listDosen[rand(10)].NIP
+  pembimbing.dosen_id     = @listDosen[rand(@dosenlen)].NIP
   @index = @index + 1
 end
 @index = 0
 #######################################################################
 Penguji.populate 10 do |penguji|
   penguji.mahasiswa_id  = @listMahasiswa[@index].NIM
-  penguji.dosen_id      = @listDosen[rand(10)].NIP
+  penguji.dosen_id      = @listDosen[rand(@dosenlen)].NIP
   @index= @index + 1
 end
 @index = 0
@@ -84,6 +107,15 @@ Room.populate 2 do |room|
   room.email  = Faker::Internet.email
   room.name   = Faker::Company.name
   @listRoom << room
+end
+
+#event room
+Event.populate 5 do |event|
+  event.start       = Time.at(Time.now.to_i + rand(2.months))
+  event.end         = Time.at(event.start.to_i + rand(3.hours))
+  event.name        = Faker::Company.buzzword
+  event.owner_id    = @listRoom[rand(@listRoom.length)].name
+  event.event_type  = 99
 end
 #######################################################################
 ScheduledEvent.populate 10 do |scheduled|
