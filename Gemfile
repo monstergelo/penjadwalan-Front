@@ -60,3 +60,7 @@ gem 'toastr-rails'
 gem 'remotipart', github: 'mshibuya/remotipart'
 gem 'rails_admin', '>= 1.0.0.rc'
 gem 'cancancan'
+
+# database data
+gem 'faker'
+gem 'populator'

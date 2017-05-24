@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523122939) do
+ActiveRecord::Schema.define(version: 20170524050834) do
 
   create_table "calendar_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "start_date"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20170523122939) do
     t.datetime "start"
     t.datetime "end"
     t.string   "name"
-    t.integer  "event_id"
     t.integer  "event_type"
     t.string   "owner_id"
     t.datetime "created_at", null: false

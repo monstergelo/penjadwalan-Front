@@ -76,6 +76,8 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.7.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     firebase (0.2.6)
@@ -148,6 +150,7 @@ GEM
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
     os (0.9.6)
+    populator (1.0.0)
     public_suffix (2.0.5)
     puma (3.8.2)
     rack (2.0.3)
@@ -258,11 +261,13 @@ DEPENDENCIES
   certified
   coffee-rails (~> 4.2)
   devise
+  faker
   firebase
   google-api-client
   jbuilder (~> 2.5)
   jquery-rails
   mysql2 (>= 0.3.18, < 0.5)
+  populator
   puma (~> 3.0)
   rails (~> 5.0.2)
   rails_admin (>= 1.0.0.rc)

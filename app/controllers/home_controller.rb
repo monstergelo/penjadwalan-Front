@@ -809,4 +809,13 @@ class HomeController < ApplicationController
     code = params[:user][:code]
     authorize_by_code($email, code)
   end
+
+
+  #####################################################
+  #database query
+  #####################################################
+  def test_query
+    puts Dosen.all
+    puts Mahasiswa.all
+  end
 end
