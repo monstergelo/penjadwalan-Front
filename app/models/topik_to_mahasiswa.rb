@@ -1,2 +1,0 @@
-class TopikToMahasiswa < ApplicationRecord
-end

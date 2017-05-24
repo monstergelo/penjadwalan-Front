@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  end: 2017-05-23 19:29:39
+  start: 2017-05-23 19:29:39
+  student_id: MyString
+  room_id: MyString
+  event_type: 1
+  event_name: MyString
+
+two:
+  end: 2017-05-23 19:29:39
+  start: 2017-05-23 19:29:39
+  student_id: MyString
+  room_id: MyString
+  event_type: 1
+  event_name: MyString

@@ -57,17 +57,17 @@ class HomeController < ApplicationController
 
       @tempjson["start_date"] ||= {}
       @tempjson["start_date"] = startDate
-      puts @tempjson["start_date"]
-      puts startDate
+      # puts @tempjson["start_date"]
+      # puts startDate
       @tempjson["end_date"] ||= {}
       @tempjson["end_date"] = endDate
       @myjson << @tempjson.clone
-      puts JSON.dump(@tempjson)
+      # puts JSON.dump(@tempjson)
     end
 
-    puts "*****************************"
-    puts JSON.dump(@myjson)
-    puts "*****************************"
+    # puts "*****************************"
+    # puts JSON.dump(@myjson)
+    # puts "*****************************"
 
     render :text => JSON.dump(@myjson)
   end
@@ -84,7 +84,7 @@ class HomeController < ApplicationController
 
   def receive_json_result()
     @result = JSON.parse(send_json_post())
-    puts @result
+    # puts @result
     @myjson ||= []
     @tempjson = {}
     i = 0
@@ -103,17 +103,17 @@ class HomeController < ApplicationController
 
       @tempjson["start_date"] ||= {}
       @tempjson["start_date"] = startDate
-      puts @tempjson["start_date"]
-      puts startDate
+      # puts @tempjson["start_date"]
+      # puts startDate
       @tempjson["end_date"] ||= {}
       @tempjson["end_date"] = endDate
       @myjson << @tempjson.clone
-      puts JSON.dump(@tempjson)
+      # puts JSON.dump(@tempjson)
     end
 
-    puts "*****************************"
-    puts JSON.dump(@myjson)
-    puts "*****************************"
+    # puts "*****************************"
+    # puts JSON.dump(@myjson)
+    # puts "*****************************"
 
     render :text => JSON.dump(@myjson)
   end
@@ -128,7 +128,7 @@ class HomeController < ApplicationController
     request["Content-Type"] = "application/json"
 
     response = https.request(request)
-    puts response.body
+    # puts response.body
 
     base_uri = 'https://ppl-scheduling.firebaseio.com/'
 
@@ -677,7 +677,7 @@ class HomeController < ApplicationController
   ]
 }
 }"
-    puts request.body
+    # puts request.body
 
     response = https.request(request)
     # puts response.body
@@ -733,7 +733,7 @@ class HomeController < ApplicationController
         reminder[:minutes] = 15
         event[:reminder][:overrides] << reminder.clone
 
-        puts event.to_hash
+        # puts event.to_hash
         insertJson(event.to_hash)
     end
 

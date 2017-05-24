@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @period.start %>
+</p>
+
+<p>
+  <strong>End:</strong>
+  <%= @period.end %>
+</p>
+
+<p>
+  <strong>Period type:</strong>
+  <%= @period.period_type %>
+</p>
+
+<%= link_to 'Edit', edit_period_path(@period) %> |
+<%= link_to 'Back', periods_path %>

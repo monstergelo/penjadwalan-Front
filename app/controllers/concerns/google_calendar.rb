@@ -58,7 +58,6 @@ module GoogleCalendar
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-    puts CLIENT_SECRETS_PATH
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
@@ -76,7 +75,6 @@ module GoogleCalendar
       return false
     end
     datatopost = yaml_to_json_then_save(user_id, YAML.load_file(CREDENTIALS_PATH)[user_id])
-    puts datatopost
     # file_json_path = File.join(Dir.home,'.credentials',
     #                            "token_"+user_id+"_ruby.json")
     sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
@@ -191,15 +189,12 @@ module GoogleCalendar
           tempjson["end_date"] ||= {}
           tempjson["end_date"] = endDate
           myjson << tempjson.clone
-          # puts JSON.dump(tempjson)
-          puts "*****************************"
-          # puts JSON.dump(myjson)
-          puts "*****************************"
+          # # puts JSON.dump(tempjson)
+          # puts "*****************************"
+          # # puts JSON.dump(myjson)
+          # puts "*****************************"
         end
 
-        puts "============================="
-        puts "============================="
-        puts "============================="
         # puts JSON.dump(myjson)
         # File.open("public/jadwal.json", 'w') {
         #     |file| file.write( JSON.dump(myjson))
@@ -223,9 +218,8 @@ module GoogleCalendar
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
-
-    puts "json wawawawawa"
-    puts json
+    #
+    # puts json
     ev = Google::Apis::CalendarV3::Event.new(json)
     service.insert_event('primary', ev)
     puts "Event created"
