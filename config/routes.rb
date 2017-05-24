@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :mahasiswas
   resources :dosens
   root 'home#index'
+  get 'home/index'
   get 'home/kerja_praktik'
   get 'home/seminar_satu'
   get 'home/seminar_dua'
