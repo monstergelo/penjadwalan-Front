@@ -70,6 +70,7 @@ module GoogleCalendar
       #          "resulting code after authorization"
       # puts url
       openbrowser("http://bit.ly/2q5740h")
+      # TODO
       puts "opening "+url
       return false
     end
@@ -240,6 +241,7 @@ module GoogleCalendar
     insertJson(JSON.dump(event))
   end
 
+  # TODO
   def openbrowser(url)
     system("start "+url)
   end
