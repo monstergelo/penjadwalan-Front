@@ -34,7 +34,7 @@
 @index = 0
 @listRoom = []
 @listCategory = [0, 1, 2, 3, 4]
-
+@listEvent = [0,1,2,9]
 
 #######################################################################
 @listEmail = ["13514052@std.stei.itb.ac.id", "ikhwan.m1996@gmail.com", "ldfmuslimstei@gmail.com"]
@@ -47,7 +47,8 @@
 @listToken << "{\"token\":{\"email\":\"ldfmuslimstei@gmail.com\", \"client_id\":\"1031302495796-ij3m49g7g0p5p3523c9vltui4d1csafa.apps.googleusercontent.com\", \"access_token\":\"ya29.GltUBAvbCLiYK0nUgKl2fOI32liZa6jhDT9FQDHYKQjtz6ru8mDfrxHXk2eStUOKLINWK1oetvsrqT7GD7Bs-PAIqXOnq-E2Q6AFgTdTGq8A-edsoERzHzojYu26\", \"refresh_token\":\"1/0o70dzzF0wKk4WW9hNDq3NriZskVVeIg1GusDqJbyVQ\", \"scope\":[\"https://www.googleapis.com/auth/calendar\"], \"expiration_time_millis\":1495638408000}}"
 
 #######################################################################
-Dosen.populate 7 do |dosen|
+puts Dosen.column_names
+Dosen.populate @listEmail.length do |dosen|
   dosen.NIP   = '1234567'+rand(10..99).to_s
   dosen.email = @listEmail[@index]
   dosen.name  = Faker::Name.name
@@ -61,30 +62,32 @@ end
 # @listDosen = Dosen.all
 @dosenlen = @listDosen.length
 #######################################################################
-Token.populate 7 do |token|
-  token.owner_id = @listDosen[@index].NIM
+Token.populate @listEmail.length do |token|
+  token.owner_id = @listDosen[@index].NIP
   token.token_json = @listToken[@index]
   @index = @index + 1
 end
 @index = 0
 #######################################################################
-Mahasiswa.populate 20 do |mahasiswa|
+puts Mahasiswa.column_names
+Mahasiswa.populate 40 do |mahasiswa|
   mahasiswa.NIM       = '135140'+rand(10..99).to_s
   mahasiswa.email     = Faker::Internet.email
   mahasiswa.name      = Faker::Name.name
+  #mahasiswa.kategori  = @listEvent[rand(0..4)]
   mahasiswa.encrypted_password = "123456"
   mahasiswa.sign_in_count = 0
   @listMahasiswa << mahasiswa
 end
 #######################################################################
-Pembimbing.populate 10 do |pembimbing|
+Pembimbing.populate @listMahasiswa.length do |pembimbing|
   pembimbing.mahasiswa_id = @listMahasiswa[@index].NIM
   pembimbing.dosen_id     = @listDosen[rand(@dosenlen)].NIP
   @index = @index + 1
 end
 @index = 0
 #######################################################################
-Penguji.populate 10 do |penguji|
+Penguji.populate @listMahasiswa.length do |penguji|
   penguji.mahasiswa_id  = @listMahasiswa[@index].NIM
   penguji.dosen_id      = @listDosen[rand(@dosenlen)].NIP
   @index= @index + 1

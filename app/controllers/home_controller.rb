@@ -45,7 +45,26 @@ class HomeController < ApplicationController
   end
 
   def assign_sidang
+    @event_type = params["event_type"]
+  end
 
+  def routeConfirmCalendar
+    confirmScheduledEvents(99, params["event_type"])
+    if params["event_type"].to_s == "0"
+      puts "wawa"
+      redirect_to action: "sidang"
+    elsif params["event_type"].to_s == "1"
+      puts "wwiwi"
+      redirect_to action: "seminar_satu"
+    elsif params["event_type"].to_s == "2"
+      puts "wewe"
+      redirect_to action: "seminar_dua"
+    elsif params["event_type"].to_s == "9"
+      puts "wowo"
+      redirect_to action: "kerja_praktik"
+    else
+      render :text => "something went wrong"
+    end
   end
 
   def calendar_edit_action

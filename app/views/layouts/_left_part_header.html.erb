@@ -21,7 +21,16 @@
       <!--</div>-->
       <!--<hr>-->
     </header>
-
+  <ul>
+    <li><%= link_to "sidang", sidang_path %></li>
+      <ul><li><%= link_to "(assign)", assign_sidang_path(0) %></li></ul>
+    <li><%= link_to "seminar satu", seminar_satu_path %></li>
+      <ul><li><%= link_to "(assign)", assign_sidang_path(1) %></li></ul>
+    <li><%= link_to "seminar dua", seminar_dua_path %></li>
+      <ul><li><%= link_to "(assign)", assign_sidang_path(2) %></li></ul>
+    <li><%= link_to "kerja praktik", kerja_praktik_path %></li>
+      <ul><li><%= link_to "(assign)", assign_sidang_path(9) %></li></ul>
+  </ul>
   <% render 'layouts/left_part_checkboxes' %>
 
 </div>

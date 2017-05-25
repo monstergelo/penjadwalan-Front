@@ -20,16 +20,17 @@ Rails.application.routes.draw do
 
   get 'home/show'
   get 'home/index'
-  get 'home/kerja_praktik'
-  get 'home/seminar_satu'
-  get 'home/seminar_dua'
-  get 'home/sidang'
+  get 'home/kerja_praktik', :to => "home#kerja_praktik", :as => "kerja_praktik"
+  get 'home/seminar_satu', :to => "home#seminar_satu", :as => "seminar_satu"
+  get 'home/seminar_dua' , :to => "home#seminar_dua", :as => "seminar_dua"
+  get 'home/sidang', :to => "home#sidang", :as => "sidang"
   get 'home/test_calendar_process'
   get 'home/tambah_mahasiswa'
   get 'home/index'
   get "home/routeSchedule/:event_type", :to => "home#routeSchedule", :as => "routeSchedule"
   get "home/routeFetchResult/:event_type", :to => "home#routeFetchResult", :as => "routeFetchResult"
-  get "home/assign_sidang", :to => "home#assign_sidang", :as => "assign_sidang"
+  get "home/assign_sidang/:event_type", :to => "home#assign_sidang", :as => "assign_sidang"
+  get "home/routeConfirmCalendar/:event_type", :to => "home#routeConfirmCalendar", :as => "routeConfirmCalendar"
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
   match "home/schedule", :to => "home#schedule", :as => "schedule", :via => "get"

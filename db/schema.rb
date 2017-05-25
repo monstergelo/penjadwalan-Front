@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525112816) do
+ActiveRecord::Schema.define(version: 20170525195645) do
 
   create_table "calendar_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "start_date"
@@ -34,9 +34,8 @@ ActiveRecord::Schema.define(version: 20170525112816) do
     t.string   "name"
     t.integer  "event_type"
     t.string   "owner_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.string   "google_event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "mahasiswas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -97,7 +96,7 @@ ActiveRecord::Schema.define(version: 20170525112816) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
-  
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "provider"
     t.string   "uid"

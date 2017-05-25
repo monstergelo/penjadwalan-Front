@@ -15,11 +15,7 @@
 </div>
 <script>
     function schedule(){
-        <%=
-          puts "play button"
-          home = HomeController.new
-          home.confirmScheduledEvents(99, 0)
-        %>
+        window.location.href="<%= routeConfirmCalendar_path(@event_type)%>"
     }
 
     function refresh() {
@@ -28,7 +24,7 @@
 
     scheduler.config.xml_date="%Y-%m-%d %H:%i";
     scheduler.init("scheduler_here",new Date(),"month");
-    scheduler.load("<%= routeSchedule_path(0)%>", "json");
+    scheduler.load("<%= routeSchedule_path(@event_type)%>", "json");
     var dp = new dataProcessor("<%= calendar_edit_action_path %>");
     dp.init(scheduler);
     dp.setTransactionMode("GET", false);
