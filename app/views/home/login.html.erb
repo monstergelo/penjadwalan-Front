@@ -96,7 +96,7 @@ limitations under the License
   </div>
 </nav>
 <div class="row">
-  <div class="col l6 s12">
+  <div class="col l12 s12">
     <!--
                 <div class="grimps-header grimps-violet verification-header grimps-text-lato">
                     <div class="header-title grimps-text-plain grimps-text-big">WELCOME</div>
@@ -117,18 +117,30 @@ limitations under the License
     <center>
       <p style="font-size:17px">Seminar KP, Seminar TA, Sidang TA</p>
     </center>
-
-  </div>
-  <div class="col l6 s12">
-    <form action="get_email" id="new_user" method="post">
-        <div class="input-field col s6 l6">
-          <i class="material-icons prefix">account_circle</i>
-          <input placeholder="Masukkan email google Anda, lalu tekan Check" id="user_email" name="user[email]" size="30" type="email" value="" required/>
-          <!--<input placeholder="Masukkan password anda" id="user_code" name="user[password]" size="100" type="password" value="" required/>-->
-
-         <input class="btn" name="login" type="submit" value="Check" />
-       </div>
-   </form>
+    <br>
+    <div style="max-width: 600px">
+      <center>
+        <div class="row">
+              <% if current_user %>
+                  <div class="col s9 l9">
+                    <div class="card-panel light-blue accent-4">
+                      Signed in as <strong><%= current_user.name %></strong>!
+                    </div>
+                  </div>
+                  <div class=""col s3 l3">
+                    <a class="btn waves-effect waves-light blue" href="/">Home</a>
+                  </div>
+                  <div class=""col s3 l3">
+                  <a class="btn waves-effect waves-light red" href="/signout">Signout</a>
+                  </div>
+              <% else %>
+                <div class="card-panel light-blue accent-4">
+                  <a style="color: black" class="waves-effect waves-light" href="/redirect">Sign in with Google</a>
+                </div>
+              <% end %>
+        </div>
+      </center>
+    </div>
  </div>
  <br>
  <br>
@@ -141,17 +153,6 @@ limitations under the License
       <!--</div>-->
     <!--</form>-->
   <!--</div>-->
-
-  <div class="col l6 s12">
-    <div>
-      <% if current_user %>
-          Signed in as <strong><%= current_user.name %></strong>!
-          <%= link_to "Sign out", signout_path, id: "sign_out" %>
-      <% else %>
-          <%= link_to "Sign in with Google", "/redirect", id: "sign_in" %>
-      <% end %>
-    </div>
-  </div>
 </div>
   <script src="public/js/jquery.min.js"></script>
   <script src="public/js/material.min.js"></script>
@@ -159,14 +160,3 @@ limitations under the License
   <script src="public/js/login.js"></script>
 </body>
 </html>
-<form action="get_email" class="new_user" id="new_user" method="post">
-  <label for="user_email">Email<br /></label>
-    <input id="user_email" name="user[email]" size="30" type="email" value="" /></div>
-    <input name="commit" type="submit" value="Submit" />
-</form>
-
-<!--<form action="get_code" class="new_user" id="new_user" method="post">-->
-  <!--<label for="code">Paste kode di sini<br /></label>-->
-  <!--<input id="user_code" name="user[code]" size="100" type="text" value="" /></div>-->
-  <!--<input name="commit_code" type="submit" value="Accept" />-->
-<!--</form>-->
