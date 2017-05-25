@@ -21,6 +21,11 @@ ActiveRecord::Schema.define(version: 20170525112816) do
   end
 
   create_table "dosens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "NIP"
+    t.string   "nama"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -35,6 +40,12 @@ ActiveRecord::Schema.define(version: 20170525112816) do
   end
 
   create_table "mahasiswas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "NIM"
+    t.string   "nama"
+    t.string   "email"
+    t.string   "kategori"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pembimbings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -86,7 +97,7 @@ ActiveRecord::Schema.define(version: 20170525112816) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
-
+  
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "provider"
     t.string   "uid"
