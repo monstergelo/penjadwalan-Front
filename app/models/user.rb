@@ -18,6 +18,7 @@ class User < ApplicationRecord
       user.oauth_refresh_token = auth.credentials.refresh_token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
+      user.encrypted_password = "stei-itb"
 
     #   Generate JSON to POST
       myjson={}

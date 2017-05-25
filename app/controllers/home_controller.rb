@@ -2,7 +2,7 @@
 class HomeController < ApplicationController
   protect_from_forgery prepend: true
   skip_before_filter  :verify_authenticity_token
-  # skip_before_action :authenticate_user!, :only => [:login, :get_code, :get_email], :raise=>false
+  # skip_before_action :authenticate!, :only => [:login, :get_code, :get_email], :raise=>false
   require 'json'
   require 'google_calendar'
   require 'uri'

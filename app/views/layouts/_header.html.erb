@@ -8,7 +8,7 @@
     <div class="mdl-layout-spacer"></div>
     <!-- Left aligned menu below button -->
     <ul>
-      <% #if user_signed_in? %>
+      <% #if current_user %>
         <% #if current_user.superadmin_role?  %>
             <li title="Dashboard admin" id="dashboard-admin" class="material-icons" style="margin-right: 30px; cursor:pointer">
 
@@ -27,8 +27,8 @@
 
 
         <li title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" >
-          <% if user_signed_in? %>
-              <%= link_to "exit_to_app", destroy_user_session_path, :method => :delete  %>
+          <% if current_user %>
+              <%= link_to "exit_to_app", signout_path, id:"sign_out"  %>
           <% else %>
             <%= link_to "exit_to_app", login_path  %>
           <% end %>

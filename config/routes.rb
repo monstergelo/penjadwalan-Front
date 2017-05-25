@@ -21,14 +21,6 @@ Rails.application.routes.draw do
   resources :dosens
   root 'home#index'
 
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
-
   get 'home/show'
   get 'home/index'
   get 'home/kerja_praktik'

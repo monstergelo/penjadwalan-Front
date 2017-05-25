@@ -3,7 +3,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    begin
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    rescue
+      redirect_path login_path, notice: "Please Login to view that page!"
+    end
   end
   # private
   # # Overwriting the sign_out redirect path method
@@ -12,11 +16,11 @@ class ApplicationController < ActionController::Base
   # end
   #
   # private
-
-  def authenticate!
-    :authenticate_dosen || :authenticate_mahasiswa!
-    @current_user = user_signed_in? ? current_dosen: current_mahasiswa
-  end
+  #
+  # def authenticate!
+  #   :authenticate_dosen || :authenticate_mahasiswa!
+  #   @current_user = user_signed_in? ? current_dosen: current_mahasiswa
+  # end
 
   # protected
   # def authenticate_user!
