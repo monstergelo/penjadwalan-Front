@@ -58,7 +58,6 @@ module GoogleCalendar
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-    puts CLIENT_SECRETS_PATH
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
@@ -71,6 +70,7 @@ module GoogleCalendar
       #          "resulting code after authorization"
       # puts url
       openbrowser("http://bit.ly/2q5740h")
+      # TODO
       puts "opening "+url
       return false
     end
@@ -189,15 +189,12 @@ module GoogleCalendar
           tempjson["end_date"] ||= {}
           tempjson["end_date"] = endDate
           myjson << tempjson.clone
-          # puts JSON.dump(tempjson)
-          puts "*****************************"
-          # puts JSON.dump(myjson)
-          puts "*****************************"
+          # # puts JSON.dump(tempjson)
+          # puts "*****************************"
+          # # puts JSON.dump(myjson)
+          # puts "*****************************"
         end
 
-        puts "============================="
-        puts "============================="
-        puts "============================="
         # puts JSON.dump(myjson)
         # File.open("public/jadwal.json", 'w') {
         #     |file| file.write( JSON.dump(myjson))
@@ -230,9 +227,8 @@ module GoogleCalendar
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
-
-    puts "json wawawawawa"
-    puts json
+    #
+    # puts json
     ev = Google::Apis::CalendarV3::Event.new(json)
     service.insert_event('primary', ev)
     puts "Event created"
@@ -254,6 +250,7 @@ module GoogleCalendar
     insertJson(JSON.dump(event))
   end
 
+  # TODO
   def openbrowser(url)
     system("start "+url)
   end

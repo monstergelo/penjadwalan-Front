@@ -1,19 +1,48 @@
 <header class="grimps-white grimps-text-alcu demo-header mdl-layout__header mdl-color-text--grey-600">
   <div class="mdl-layout__header-row">
     <div class="grimps-text-title" style="margin-right: 50px"><i class="material-icons">date_range</i> CALENDAR</div>
-    <i class="material-icons">search</i>
-    <form id = "search" style="margin-left: 30px">
-      <input style="height: 40px; width: 500px; border:0px" name="search" placeholder="Search calendars..."></form>
-    </form>
+    <!--<i class="material-icons">search</i>-->
+    <!--<form id = "search" style="margin-left: 30px">-->
+      <!--&lt;!&ndash;<input style="height: 40px; width: 500px; border:0px" name="search" placeholder="Search calendars..."></form>&ndash;&gt;-->
+    <!--</form>-->
     <div class="mdl-layout-spacer"></div>
     <!-- Left aligned menu below button -->
-    <div id="notif" class="material-icons mdl-badge mdl-badge--overlap" data-badge="2" style="margin-right: 30px">
-      notifications
-    </div>
-    <ul class="grimps-text-lato mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="notif">
-      <li class="mdl-menu__item" onclick="window.location.href='dsn-notes.html'"><img src="images/graduate.jpg"><span>Hillary wants to change examination.</span></li>
-      <li class="mdl-menu__item" onclick="window.location.href='dsn-notes.html'"><img src="images/graduate.jpg"><span>Your changes had been approved.</span></li>
+    <ul>
+      <% #if user_signed_in? %>
+        <% #if current_user.superadmin_role?  %>
+              <% #if user_signed_in? %>
+            <li title="Dashboard admin" id="dashboard-admin" class="material-icons" style="margin-right: 30px; cursor:pointer">
+
+                  <%= link_to "face", rails_admin_path  %>
+
+            </li>
+
+            <li title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="schedule()">
+              play_arrow
+            </li>
+
+            <li title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
+              refresh
+            </li>
+        <% #end %>
+
+
+        <li title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" >
+          <% if user_signed_in? %>
+              <%= link_to "exit_to_app", destroy_user_session_path, :method => :delete  %>
+          <% else %>
+            <%= link_to "exit_to_app", login_path  %>
+          <% end %>
+        </li>
+
     </ul>
+
+
+    <!--<li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>-->
+    <!--<ul class="grimps-text-lato mdl-menu mdl-menu&#45;&#45;bottom-right mdl-js-menu mdl-js-ripple-effect" for="notif">-->
+      <!--<li class="mdl-menu__item" onclick="window.location.href='dsn-notes.html'"><img src="images/graduate.jpg"><span>Hillary wants to change examination.</span></li>-->
+      <!--<li class="mdl-menu__item" onclick="window.location.href='dsn-notes.html'"><img src="images/graduate.jpg"><span>Your changes had been approved.</span></li>-->
+    <!--</ul>-->
     <div class="grimps-text-title"></div>
   </div>
 </header>

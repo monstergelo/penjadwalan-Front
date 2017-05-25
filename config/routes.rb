@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  resources :tokens
+  resources :scheduled_events
+  resources :periods
+  resources :rooms
+  resources :events
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  devise_for :users, controllers: {
+      sessions: 'users/sessions',
+      passwords: 'users/passwords',
+      registrations: 'users/registrations'
+  }
   resources :topik_to_mahasiswas
   resources :topik_to_dosens
   resources :pembimbings
@@ -6,6 +17,7 @@ Rails.application.routes.draw do
   resources :topiks
   resources :mahasiswas
   resources :dosens
+  root 'home#index'
   get 'home/index'
   get 'home/kerja_praktik'
   get 'home/seminar_satu'
@@ -13,10 +25,13 @@ Rails.application.routes.draw do
   get 'home/sidang'
   get 'home/test_calendar_process'
   get 'home/tambah_mahasiswa'
+  get 'home/index'
+  get "home/routeSchedule/:event_type", :to => "home#routeSchedule", :as => "routeSchedule"
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
   match "home/schedule", :to => "home#schedule", :as => "schedule", :via => "get"
   match "home/req_post", :to => "home#req_post", :as => "req_post", :via => "get"
+  match "home/fetch_result", :to => "home#fetch_result", :as => "fetch_result", :via => "get"
   match "home/req_post_form", :to => "home#req_post_form", :as => "req_post_form", :via => "get"
   match "home/send_json_post", :to => "home#send_json_post", :as => "send_json_post", :via => "post"
   match "home/test_request", :to => "home#test_request", :as => "test_request", :via => "get"

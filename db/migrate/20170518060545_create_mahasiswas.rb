@@ -4,7 +4,6 @@ class CreateMahasiswas < ActiveRecord::Migration[5.0]
       t.string :NIM
       t.string :nama
       t.string :email
-      t.string :kategori
 
       t.timestamps
     end
