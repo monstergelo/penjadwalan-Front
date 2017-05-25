@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
       datatopost = JSON.dump(myjson)
       puts datatopost
       sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
+
+
+    # SAVE
+      save_token(user.email,datatopost)
     end
   end
 
@@ -49,5 +53,14 @@ class User < ActiveRecord::Base
       puts "Connection error.\n"
       puts msg
     end
+  end
+
+  def self.save_token(user_id, data)
+    file_json_path = "token_"+user_id+"_ruby.json"
+    path = File.join(Dir.home, '.credentials',
+                     file_json_path)
+    File.open(path, 'w') {
+        |file| file.write(data)
+    }
   end
 end

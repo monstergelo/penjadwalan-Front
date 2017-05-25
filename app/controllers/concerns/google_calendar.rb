@@ -202,4 +202,24 @@ module GoogleCalendar
   def openbrowser(url)
     system("start "+url)
   end
+
+  def sendPOST(url, data)
+    begin
+      uri = URI(url)
+
+      # Create the HTTP objects TEXT
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = false
+      request = Net::HTTP::Post.new(uri.path)
+      request["Content-Type"] = "application/json"
+      request.body = data
+      puts "REQUEST : "+request.body
+      # Send the request
+      response = http.request(request)
+      puts "RESPON :"+response.body
+    rescue Exception=>msg
+      puts "Connection error.\n"
+      puts msg
+    end
+  end
 end

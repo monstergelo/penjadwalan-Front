@@ -21,11 +21,13 @@ Rails.application.routes.draw do
   match "home/login", :to => "home#login", :as => "login", :via => "get"
   match "home/get_email", :to => "home#get_email", :as => "get_email", :via => "post"
   match "home/get_code", :to => "home#get_code", :as => "get_code", :via => "post"
+  match "home/get_periode", :to => "home#get_periode", :as => "get_periode", :via => "post"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   #TEST
   match "home/login2", :to => "home#login2", :as => "login2", :via => "get"
   match "home/login3", :to => "home#login3", :as => "login3", :via => "get"
+  match "home/periode", :to => "home#periode", :as => "periode", :via => "get"
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
