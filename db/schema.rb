@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524175801) do
+ActiveRecord::Schema.define(version: 20170525083409) do
 
   create_table "calendar_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "start_date"
@@ -21,11 +21,6 @@ ActiveRecord::Schema.define(version: 20170524175801) do
   end
 
   create_table "dosens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "NIP"
-    t.string   "nama"
-    t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -40,11 +35,6 @@ ActiveRecord::Schema.define(version: 20170524175801) do
   end
 
   create_table "mahasiswas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "NIM"
-    t.string   "nama"
-    t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "pembimbings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -98,24 +88,27 @@ ActiveRecord::Schema.define(version: 20170524175801) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.string   "email",                  default: "",       null: false
-    t.string   "encrypted_password",     default: "123456"
-    t.string   "name",                   default: "",       null: false
-    t.string   "nip",                    default: ""
-    t.string   "nim",                    default: ""
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "email"
+    t.string   "name"
+    t.string   "oauth_token"
+    t.string   "oauth_refresh_token"
+    t.string   "role"
+    t.string   "NIP"
+    t.string   "NIM"
+    t.datetime "oauth_expires_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,        null: false
+    t.integer  "sign_in_count",          default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.boolean  "superadmin_role",        default: false
-    t.boolean  "dosen_role",             default: false
-    t.boolean  "student_role",           default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

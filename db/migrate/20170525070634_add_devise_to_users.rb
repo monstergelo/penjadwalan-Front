@@ -1,12 +1,9 @@
 class AddDeviseToUsers < ActiveRecord::Migration[5.0]
-  def change
-    create_table :users do |t|
+  def self.up
+    change_table :users do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
-      t.string :encrypted_password, default: "123456"
-      t.string :name, null:false, default: ""
-      t.string :nip, null:true, default: ""
-      t.string :nim, null:true, default: ""
+      t.string :encrypted_password, null: false, default: ""
+
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
@@ -33,19 +30,19 @@ class AddDeviseToUsers < ActiveRecord::Migration[5.0]
       # t.datetime :locked_at
 
 
-      t.timestamps null: false
+      # Uncomment below if timestamps were not included in your original model.
+      # t.timestamps null: false
     end
 
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
+  end
 
-    # Initialize first account:
-    User.create! do |u|
-      u.email     = 'test@test.com'
-      u.password    = '123456'
-      u.name = 'bimo'
-    end
+  def self.down
+    # By default, we don't want to make any assumption about how to roll back a migration when your
+    # model already existed. Please edit below which fields you would like to remove in this migration.
+    raise ActiveRecord::IrreversibleMigration
   end
 end

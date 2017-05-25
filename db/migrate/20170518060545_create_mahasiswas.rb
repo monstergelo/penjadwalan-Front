@@ -1,11 +1,10 @@
 class CreateMahasiswas < ActiveRecord::Migration[5.0]
-  def change
-    create_table :mahasiswas do |t|
-      t.string :NIM
-      t.string :nama
-      t.string :email
+  def self.up
+    create_table :mahasiswas do |mahasiswa|
+    end
 
-      t.timestamps
+    Mahasiswa.find_each do |mahasiswa|
+      mahasiswa.role = 'mahasiswa'
     end
   end
 end

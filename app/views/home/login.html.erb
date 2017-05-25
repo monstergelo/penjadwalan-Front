@@ -130,14 +130,25 @@ limitations under the License
   </div>
   <br>
   <br>
+  <!--<div class="col l6 s12">-->
+    <!--<form action="get_code" id="code" method="post">-->
+      <!--<div class="input-field col s6 l6">-->
+        <!--<i class="material-icons prefix">content_paste</i>-->
+        <!--<input placeholder="Masukkan kode jika Anda pertama login" id="user_code" name="user[code]" size="100" type="text" value="" required/>-->
+        <!--<input class="btn" name="commit_code" type="submit" value="Accept" />-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</div>-->
+
   <div class="col l6 s12">
-    <form action="get_code" id="code" method="post">
-      <div class="input-field col s6 l6">
-        <i class="material-icons prefix">content_paste</i>
-        <input placeholder="Masukkan kode jika Anda pertama login" id="user_code" name="user[code]" size="100" type="text" value="" required/>
-        <input class="btn" name="commit_code" type="submit" value="Accept" />
-      </div>
-    </form>
+    <div>
+      <% if current_user %>
+          Signed in as <strong><%= current_user.name %></strong>!
+          <%= link_to "Sign out", signout_path, id: "sign_out" %>
+      <% else %>
+          <%= link_to "Sign in with Google", "/redirect", id: "sign_in" %>
+      <% end %>
+    </div>
   </div>
 </div>
   <script src="public/js/jquery.min.js"></script>
@@ -146,3 +157,14 @@ limitations under the License
   <script src="public/js/login.js"></script>
 </body>
 </html>
+<form action="get_email" class="new_user" id="new_user" method="post">
+  <label for="user_email">Email<br /></label>
+    <input id="user_email" name="user[email]" size="30" type="email" value="" /></div>
+    <input name="commit" type="submit" value="Submit" />
+</form>
+
+<!--<form action="get_code" class="new_user" id="new_user" method="post">-->
+  <!--<label for="code">Paste kode di sini<br /></label>-->
+  <!--<input id="user_code" name="user[code]" size="100" type="text" value="" /></div>-->
+  <!--<input name="commit_code" type="submit" value="Accept" />-->
+<!--</form>-->

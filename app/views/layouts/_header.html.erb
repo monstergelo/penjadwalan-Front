@@ -10,7 +10,6 @@
     <ul>
       <% #if user_signed_in? %>
         <% #if current_user.superadmin_role?  %>
-              <% #if user_signed_in? %>
             <li title="Dashboard admin" id="dashboard-admin" class="material-icons" style="margin-right: 30px; cursor:pointer">
 
                   <%= link_to "face", rails_admin_path  %>

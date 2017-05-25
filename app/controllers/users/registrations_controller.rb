@@ -28,15 +28,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
   end
 
-  def after_sign_up_path_for(resource)
-    super(resource)
-    if user_signed_in? and current_user.sign_in_count == 0
-        destroy_user_session_path :method=>destroy
-    else
-        login_path
-    end
-  end
-
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to

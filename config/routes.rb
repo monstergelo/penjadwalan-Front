@@ -3,13 +3,15 @@ Rails.application.routes.draw do
   resources :scheduled_events
   resources :periods
   resources :rooms
-  resources :events
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  resources :sessions
   devise_for :users, controllers: {
       sessions: 'users/sessions',
       passwords: 'users/passwords',
       registrations: 'users/registrations'
   }
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
+
   resources :topik_to_mahasiswas
   resources :topik_to_dosens
   resources :pembimbings
@@ -18,6 +20,16 @@ Rails.application.routes.draw do
   resources :mahasiswas
   resources :dosens
   root 'home#index'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
+  get 'home/show'
   get 'home/index'
   get 'home/kerja_praktik'
   get 'home/seminar_satu'
@@ -47,5 +59,28 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   #FOR LOGIN2
+  # match "home/login2", :to => "home#login2", :as => "login2", :via => "get"
+  match "home/get_periode", :to => "home#get_periode", :as => "get_periode", :via => "post"
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  #TEST
   match "home/login2", :to => "home#login2", :as => "login2", :via => "get"
+  match "home/login3", :to => "home#login3", :as => "login3", :via => "get"
+  match "home/periode", :to => "home#periode", :as => "periode", :via => "get"
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+
+  resources :sessions, only: [:create, :destroy]
+  resource :home, only: [:show]
+
+  root to: "home#show"
+
+  get '/redirect', to: 'home#redirect', as: 'redirect'
+  get '/callback', to: 'home#callback', as: 'callback'
+  get '/calendars', to: 'home#calendars', as: 'calendars'
+
+  get '/events/:calendar_id', to: 'home#events', as: 'events', calendar_id: /[^\/]+/
+  post '/events/:calendar_id', to: 'home#new_event', as: 'new_event', calendar_id: /[^\/]+/
 end

@@ -50,7 +50,9 @@
 Dosen.populate 7 do |dosen|
   dosen.NIP   = '1234567'+rand(10..99).to_s
   dosen.email = @listEmail[@index]
-  dosen.nama  = Faker::Name.name
+  dosen.name  = Faker::Name.name
+  dosen.encrypted_password = "123456"
+  dosen.sign_in_count = 0
   @listDosen << dosen
   @index = @index + 1
 end
@@ -60,7 +62,7 @@ end
 @dosenlen = @listDosen.length
 #######################################################################
 Token.populate 7 do |token|
-  token.owner_id = @listDosen[@index].NIP
+  token.owner_id = @listDosen[@index].NIM
   token.token_json = @listToken[@index]
   @index = @index + 1
 end
@@ -69,7 +71,9 @@ end
 Mahasiswa.populate 20 do |mahasiswa|
   mahasiswa.NIM       = '135140'+rand(10..99).to_s
   mahasiswa.email     = Faker::Internet.email
-  mahasiswa.nama      = Faker::Name.name
+  mahasiswa.name      = Faker::Name.name
+  mahasiswa.encrypted_password = "123456"
+  mahasiswa.sign_in_count = 0
   @listMahasiswa << mahasiswa
 end
 #######################################################################
@@ -149,9 +153,9 @@ end
 
 puts "DOSEN=============="
 @listDosen.each do |d|
-  puts d.nama
+  puts d.name
 end
 puts "Mahasiswa=============="
 @listMahasiswa.each do |m|
-  puts m.nama
+  puts m.name
 end

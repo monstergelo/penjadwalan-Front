@@ -1,5 +1,5 @@
 class CreateCalendarEvents < ActiveRecord::Migration[5.0]
-  def change
+  def self.up
     create_table :calendar_events do |t|
       t.datetime :start_date
       t.datetime :end_date
@@ -7,5 +7,9 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+  end
+
+  def self.down
+    drop_table :calendars_events
   end
 end

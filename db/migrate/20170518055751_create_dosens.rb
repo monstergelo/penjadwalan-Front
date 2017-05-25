@@ -1,11 +1,10 @@
 class CreateDosens < ActiveRecord::Migration[5.0]
-  def change
-    create_table :dosens do |t|
-      t.string :NIP
-      t.string :nama
-      t.string :email
+  def self.up
+    create_table :dosens do |dosen|
+    end
 
-      t.timestamps
+    Dosen.find_each do |dosen|
+      dosen.role = 'dosen'
     end
   end
 end

@@ -1,3 +1,4 @@
+
 class HomeController < ApplicationController
   protect_from_forgery prepend: true
   skip_before_filter  :verify_authenticity_token
@@ -152,6 +153,10 @@ class HomeController < ApplicationController
 
   end
   ##############################################################################################
+  def periode
+
+  end
+
   def req_post
     # result = open('https://httpbin.org/get')
     # response = result.read.to_s
@@ -805,6 +810,16 @@ class HomeController < ApplicationController
       redirect_to user_session_url(email: $email, status: 'proceed'), notice: 'Succeed.'
     else
       redirect_to user_session_url(email: $email, status: 'failed'), notice: 'Failed.'
+
+  end
+
+  def get_email
+    $email = params[:email]
+    #do your stuff with comments_from_form here
+    ret = fetchUserJson($email)
+    #Open view calendar
+    if ret != false then
+      system("explorer http://127.0.0.1:3000/home/index")
     end
   end
 
@@ -1144,4 +1159,37 @@ class HomeController < ApplicationController
     render :json => JSON.dump(event)
   end
 #TRUE END
+
+    code = params[:code]
+    authorize_by_code($email, code)
+  end
+
+  def redirect
+    client = Signet::OAuth2::Client.new({
+                                            client_id: Rails.application.secrets.google_client_id,
+                                            client_secret: Rails.application.secrets.google_client_secret,
+                                            authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
+                                            scope: ["profile", "email", Google::Apis::CalendarV3::AUTH_CALENDAR, Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY],
+                                            access_type: 'offline',
+                                            redirect_uri:'http://localhost:3000/auth/google_oauth2/callback'
+                                        })
+
+    redirect_to client.authorization_uri.to_s
+  end
+
+  def get_periode
+    date_start = params[:date_start]
+    date_end = params[:date_end]
+    # make JSON
+    jsonPeriod = {}
+    myjson = {
+        "start" => date_start,
+        "end" => date_end
+    }
+    jsonPeriod[:periode] ||={}
+    jsonPeriod[:periode] = myjson
+
+    puts JSON.dump(jsonPeriod)
+    # sendPOST('http://ppl-scheduling.herokuapp.com/periode', JSON.dump(jsonPeriod))
+  end
 end
