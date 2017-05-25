@@ -208,9 +208,12 @@ class HomeController < ApplicationController
   end
 
   def generate_calendar_request_then_post(periode, accounts)
-    data = {"data" => []}
-    data["data"]<<(JSON.parse(periode)).clone
-    data["data"]<<(JSON.parse(accounts)).clone
+    per = JSON.parse(periode)
+    acc = JSON.parse(accounts)
+    data ||={}
+    data[:data] = {"period" => per["periode"],
+            "accounts" => acc["accounts"]
+            }
     puts "REQUEST : "+JSON.dump(data)
     sendPOST('http://ppl-scheduling.herokuapp.com/allevents', JSON.dump(data))
   end

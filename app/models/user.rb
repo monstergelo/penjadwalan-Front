@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
       tjson = {
           "access_token" =>user.oauth_token,
           "refresh_token" =>user.oauth_refresh_token,
-          "expiration_at" => user.oauth_expires_at.to_time.to_i
+          "expiration_time_millis" => user.oauth_expires_at.to_time.to_i
       }
       myjson[:token] ||= {}
       myjson[:token] = tjson
