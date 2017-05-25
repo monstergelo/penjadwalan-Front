@@ -34,6 +34,9 @@ class HomeController < ApplicationController
 
   end
 
+  def tambah_mahasiswa
+
+  end
   def test_request
     @result = JSON.parse(req_post)
     @myjson ||= []

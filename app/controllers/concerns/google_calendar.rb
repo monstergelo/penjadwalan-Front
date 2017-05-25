@@ -75,7 +75,6 @@ module GoogleCalendar
       return false
     end
     datatopost = yaml_to_json_then_save(user_id, YAML.load_file(CREDENTIALS_PATH)[user_id])
-    puts datatopost
     # file_json_path = File.join(Dir.home,'.credentials',
     #                            "token_"+user_id+"_ruby.json")
     sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
@@ -103,12 +102,12 @@ module GoogleCalendar
 
     temp = JSON.parse(stringyaml)
     my_json.merge!(temp)
-    file_json_path = "token_"+user_id+"_ruby.json"
-    path = File.join(Dir.home, '.credentials',
-                               file_json_path)
-
     jsonToken[:token] ||= {}
     jsonToken[:token] = my_json
+
+    file_json_path = "token_"+user_id+"_ruby.json"
+    path = File.join(Dir.home, '.credentials',
+                     file_json_path)
     File.open(path, 'w') {
         |file| file.write( JSON.dump(jsonToken))
     }
@@ -215,6 +214,15 @@ module GoogleCalendar
 
   def fetchJson()
     fetchUserJson('ikhwan.m1996@gmail.com')
+  end
+
+  def fetchJsonFromListOfUser()
+    allcalendar ||= {}
+    YAML.load_file(CREDENTIALS_PATH).each do |userEmail, value|
+      mycal = fetchUserJson(userEmail)
+      allcalendar[:"#{userEmail}"] = mycal
+    end
+    puts allcalendar
   end
 
   def insertJson(json)
