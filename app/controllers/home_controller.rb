@@ -184,7 +184,32 @@ class HomeController < ApplicationController
     jsonPeriod[:periode] ||={}
     jsonPeriod[:periode] = myjson
 
-    puts JSON.dump(jsonPeriod)
+    periode = JSON.dump(jsonPeriod)
+    puts periode
+    accounts = generate_all_accounts
+    puts accounts
+
+    generate_calendar_request_then_post(periode, accounts)
+
     # sendPOST('http://ppl-scheduling.herokuapp.com/periode', JSON.dump(jsonPeriod))
+  end
+
+  def generate_all_accounts
+    data = {"accounts" => []}
+
+    puts Dir.home+'/.credentials'
+    Dir.glob(Dir.home+'/.credentials/*.json') do |fname|
+      data["accounts"]<<(JSON.parse(File.read(fname))).clone
+    end
+    puts JSON.dump(data)
+    return JSON.dump(data)
+  end
+
+  def generate_calendar_request_then_post(periode, accounts)
+    data = {"data" => []}
+    data["data"]<<(JSON.parse(periode)).clone
+    data["data"]<<(JSON.parse(accounts)).clone
+    puts "REQUEST : "+JSON.dump(data)
+    sendPOST('http://ppl-scheduling.herokuapp.com/allevents', JSON.dump(data))
   end
 end

@@ -1,0 +1,26 @@
+{
+  "data":{
+    "period":{
+      "start":"2017-08-10T07:00:00+07:00",
+      "end":"2017-08-24T18:00:00+07:00"
+    },
+    "accounts":[
+      {
+        "email":"13514052@std.stei.itb.ac.id",
+        "token":{
+          "access_token":"ya29.GltUBBpVhcQpfOuHsuD793h7WTnFdRiyKst9JqRvGVD8Am7R1jWIDp5t85eQheD_iedrJWMkaMtWNs1pXm9ZH2Vg4UZOWvNrQ60K0pr3TzStnK50UkGaqlvma_Wj",
+          "refresh_token":"1/PZR8IfXyNRVNR0WvS9ws3h_kk8-dECDLmdkTGFZ6AF4",
+          "expiration_time_millis":1495620902000
+        }
+      },
+      {
+        "email":"mrnaufal17@gmail.com",
+        "token":{
+          "access_token":"ya29.GltUBH2AU4XT47KxufzBRIFC1qzSQDH7mfmzkLbR7QlNn0pCZ-F9td7fG3q26pVmt_eRQ9NdaD78CII_688YgQuoTD3YnxWe6wPNOw7J1fMSfONA5NvIHFGz-0w3",
+          "refresh_token":"1/DWcQR2bJs_U-dDrd1zmZJS8NEmjiK2ckbQMYTk6XTsw",
+          "expiration_time_millis":1495620944000
+        }
+      }
+    ]
+  }
+}
