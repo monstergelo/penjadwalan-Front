@@ -1,10 +1,4 @@
-class User < ApplicationRecord
-  belongs_to :member, polymorphic: true
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable
+class User < ActiveRecord::Base
   require 'json'
 
   def self.from_omniauth(auth)
@@ -15,29 +9,33 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.name = auth.info.name
       user.oauth_token = auth.credentials.token
-      user.oauth_refresh_token = auth.credentials.refresh_token
+      if auth.credentials.refresh_token.nil?
+        puts "old user"
+      else
+        user.oauth_refresh_token = auth.credentials.refresh_token
+      end
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
-      user.encrypted_password = "stei-itb"
 
-    #   Generate JSON to POST
-      myjson={}
+      #   Generate JSON to POST
+      myjson={
+          "email" => user.email
+      }
       tjson = {
-          "email" => user.email,
           "access_token" =>user.oauth_token,
           "refresh_token" =>user.oauth_refresh_token,
-          "expiration_at" => user.oauth_expires_at.to_time.to_i
+          "expiration_time_millis" => user.oauth_expires_at.to_time.to_i
       }
       myjson[:token] ||= {}
       myjson[:token] = tjson
 
-    #   POST
+      #   POST
       datatopost = JSON.dump(myjson)
       puts datatopost
-      sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
+      # puts datatopost
+      # sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
 
-
-    # SAVE
+      # SAVE
       save_token(user.email,datatopost)
     end
   end
@@ -69,6 +67,6 @@ class User < ApplicationRecord
     File.open(path, 'w') {
         |file| file.write(data)
     }
+    puts 'SAVED\n'
   end
 end
-
