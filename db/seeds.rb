@@ -138,17 +138,17 @@ Event.populate 5 do |event|
   event.event_type  = 3
 end
 #######################################################################
-ScheduledEvent.populate 10 do |scheduled|
-  scheduled.start       = Time.at(Time.now.to_i + rand(1.months))
-  scheduled.end         = Time.at(scheduled.start.to_i + 1.hours)
-  scheduled.event_name  = "sidang"
-  scheduled.event_type  = 0
-  scheduled.student_id  = @listMahasiswa[@index].NIM
-  scheduled.room_id     = @listRoom[rand(2)].id
-  scheduled.kategori    = @listCategory[rand(4)]
-  @index = @index + 1
-end
-@index = 0
+# ScheduledEvent.populate 10 do |scheduled|
+#   scheduled.start       = Time.at(Time.now.to_i + rand(1.months))
+#   scheduled.end         = Time.at(scheduled.start.to_i + 1.hours)
+#   scheduled.event_name  = "sidang"
+#   scheduled.event_type  = 0
+#   scheduled.student_id  = @listMahasiswa[@index].NIM
+#   scheduled.room_id     = @listRoom[rand(2)].id
+#   scheduled.kategori    = @listCategory[rand(4)]
+#   @index = @index + 1
+# end
+# @index = 0
 ########################################################################
 
 puts "DOSEN=============="

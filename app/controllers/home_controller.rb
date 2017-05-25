@@ -10,6 +10,8 @@ class HomeController < ApplicationController
   require 'open-uri'
   include GoogleCalendar
 
+  @events
+
   def index
 
   end
@@ -41,6 +43,47 @@ class HomeController < ApplicationController
   def tambah_mahasiswa
 
   end
+
+  def assign_sidang
+
+  end
+
+  def calendar_edit_action
+    @events = ScheduledEvent.where(:event_type => 99)
+    puts "+++++++++++++++++++++++"
+    puts @events
+
+    mode = params["!nativeeditor_status"]
+    id = params["id"]
+    start_date = params["start_date"]
+    end_date = params["end_date"]
+    text = params["text"]
+
+    case mode
+      when "inserted"
+        event = ScheduledEvent.create :start => start_date, :end => end_date, :event_name => text
+        tid = event.id
+
+      when "deleted"
+        ScheduledEvent.find(id).destroy
+        tid = id
+
+      when "updated"
+        event = ScheduledEvent.find(id)
+        event.start = start_date
+        event.end = end_date
+        event.event_name = text
+        event.save
+        tid = id
+    end
+
+    render :json => {
+        :type => mode,
+        :sid => id,
+        :tid => tid,
+    }
+  end
+
   def test_request
     @result = JSON.parse(req_post)
     @myjson ||= []
@@ -799,30 +842,6 @@ class HomeController < ApplicationController
     render :layout => false
   end
 
-  def get_email
-    $email = params[:user][:email]
-    #do your stuff with comments_from_form here
-    ret = fetchUserJson($email)
-    puts(ret)
-    #Open view calendar
-    if ret != false then
-      puts("redirecting...")
-      redirect_to user_session_url(email: $email, status: 'proceed'), notice: 'Succeed.'
-    else
-      redirect_to user_session_url(email: $email, status: 'failed'), notice: 'Failed.'
-
-  end
-
-  def get_email
-    $email = params[:email]
-    #do your stuff with comments_from_form here
-    ret = fetchUserJson($email)
-    #Open view calendar
-    if ret != false then
-      system("explorer http://127.0.0.1:3000/home/index")
-    end
-  end
-
   def get_code
     code = params[:user][:code]
     authorize_by_code($email, code)
@@ -1086,6 +1105,12 @@ class HomeController < ApplicationController
   end
 
   def scheduleEventsSaveDatabase(entry, event_type)
+    #delete all old event same type
+    listOldEvent = ScheduledEvent.where(:event_type => event_type)
+    listOldEvent.each do |old_se|
+      old_se.destroy
+    end
+
     #insert entry
     data = JSON.parse(entry)
     data.each do |d|
@@ -1099,6 +1124,22 @@ class HomeController < ApplicationController
 
         new_se.save
       end
+    end
+  end
+
+  def confirmScheduledEvents(temp_event_type, event_type)
+    puts "$$$$$$$$$$$$$$$$"
+    puts "$confirming"
+    puts "$$$$$$$$$$$$$$$$"
+    old_events = ScheduledEvent.where(:event_type => event_type)
+    old_events.each do |old_se|
+      old_se.destroy
+    end
+
+    listEvent = ScheduledEvent.where(:event_type => temp_event_type)
+    listEvent.each do |se|
+      se.event_type = event_type
+      se.save
     end
   end
   #########################################################################
@@ -1131,19 +1172,19 @@ class HomeController < ApplicationController
     request.body = JSON.dump(getSchedulingRawData(event_type))
 
     response = https.request(request)
-    puts response.body
+    scheduleEventsSaveDatabase(response.body, 99)
+    return response.body
 
-    scheduleEventsSaveDatabase(response.body, event_type)
 
-    fetch_result
   end
 
   def routeSchedule
-    scheduleEvents(params[:event_type])
+    scheduleEvents(params["event_type"])
+    fetch_result(99)
   end
   #########################################################################
-  def fetch_result()
-    listScheduled = ScheduledEvent.all
+  def fetch_result(event_type)
+    listScheduled = ScheduledEvent.where(:event_type => event_type)
     event = []
     listScheduled.each do |se|
       temp = {}
@@ -1153,17 +1194,19 @@ class HomeController < ApplicationController
       temp[:start_date] = se.start
       temp[:end_date] = {}
       temp[:end_date] = se.end
+      temp[:id] = {}
+      temp[:id] = se.id
 
       event << temp
     end
     render :json => JSON.dump(event)
   end
-#TRUE END
 
-    code = params[:code]
-    authorize_by_code($email, code)
+  def routeFetchResult
+    fetch_result(params["event_type"])
   end
 
+  #########################################################################
   def redirect
     client = Signet::OAuth2::Client.new({
                                             client_id: Rails.application.secrets.google_client_id,
