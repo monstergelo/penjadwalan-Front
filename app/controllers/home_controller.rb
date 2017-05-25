@@ -173,8 +173,10 @@ class HomeController < ApplicationController
   end
 
   def get_periode
-    date_start = params[:date_start]
-    date_end = params[:date_end]
+    d = DateTime.parse( params[:date_start])
+    date_start = DateTime.new(d.year, d.month, d.day, 7, 0,0,'+07:00')
+    d = DateTime.parse(params[:date_end])
+    date_end = DateTime.new(d.year, d.month, d.day, 7, 0,0,'+07:00')
     # make JSON
     jsonPeriod = {}
     myjson = {
