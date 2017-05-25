@@ -7,18 +7,35 @@
     <!--</form>-->
     <div class="mdl-layout-spacer"></div>
     <!-- Left aligned menu below button -->
+    <ul>
+      <% #if current_user %>
+        <% #if current_user.superadmin_role?  %>
+            <li title="Dashboard admin" id="dashboard-admin" class="material-icons" style="margin-right: 30px; cursor:pointer">
 
-    <div id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer">
-      play_arrow
-    </div>
+                  <%= link_to "face", rails_admin_path  %>
 
-    <div id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
-      refresh
-    </div>
+            </li>
 
-    <div id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="window.location.href='login.html'">
-      exit_to_app
-    </div>
+            <li title="Schedule it Now" id="execute_schedule" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="schedule()">
+              play_arrow
+            </li>
+
+            <li title="Refresh data" id="refresh_data" class="material-icons" style="margin-right: 30px; cursor:pointer" onclick="refresh()">
+              refresh
+            </li>
+        <% #end %>
+
+
+        <li title="Logout" id="exit_to_app" class="material-icons" style="margin-right: 30px; cursor:pointer" >
+          <% if current_user %>
+              <%= link_to "exit_to_app", signout_path, id:"sign_out"  %>
+          <% else %>
+            <%= link_to "exit_to_app", login_path  %>
+          <% end %>
+        </li>
+
+    </ul>
+
 
     <!--<li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>-->
     <!--<ul class="grimps-text-lato mdl-menu mdl-menu&#45;&#45;bottom-right mdl-js-menu mdl-js-ripple-effect" for="notif">-->

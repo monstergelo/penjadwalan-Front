@@ -10,6 +10,7 @@ Rails.application.config.assets.precompile += %w( material.min.css )
 Rails.application.config.assets.precompile += %w( materialize.css )
 Rails.application.config.assets.precompile += %w( materialize.min.css )
 Rails.application.config.assets.precompile += %w( styles.css )
+
 Rails.application.config.assets.precompile += %w( dhtmlxscheduler_flat.css )
 
 #js

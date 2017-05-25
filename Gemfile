@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -53,3 +53,20 @@ gem 'google-api-client'
 gem 'certified'
 
 gem 'firebase'
+
+# user
+gem 'devise'
+gem 'toastr-rails'
+gem 'remotipart', github: 'mshibuya/remotipart'
+gem 'rails_admin', '>= 1.0.0.rc'
+gem 'cancancan'
+
+# database data
+gem 'faker'
+gem 'populator'
+gem 'google-api-client', require: 'google/apis/calendar_v3'
+gem 'certified'
+
+#google oauth
+gem 'omniauth-google-oauth2', '~> 0.2.1'
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="public/css/materialize.min.css"  media="screen,projection"/>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+<div class="row">
+  <div class="col s12 l12">
+    <h4>Tambah Mahasiswa Baru</h4>
+    <form action="get_new-mhs" method="post">
+      <div class="input-field col s12 l12">
+        <i class="material-icons prefix">email</i>
+        <input placeholder="Email" id="user_email" name="user[email]" type="email"required/>
+      </div>
+
+      <div class="input-field col s12 l6">
+        <i class="material-icons prefix">account_circle</i>
+        <input placeholder="Nama awal" id="user_name" name="user[firstname]" type="text"required/>
+      </div>
+      <div class="input-field col s12 l6">
+        <input placeholder="Nama akhir" id="user_name" name="user[lastname]" type="text"required/>
+      </div>
+
+      <div class="input-field col s12 l12">
+        <i class="material-icons prefix">face</i>
+        <input placeholder="ID Pembimbing 1" id="user_pembimbing1" name="user[pembimbing1]" type="text"required/>
+      </div>
+
+      <div class="input-field col s12 l12">
+        <i class="material-icons prefix">face</i>
+        <input placeholder="ID Pembimbing 2 (opsional)" id="user_pembimbing2" name="user[pembimbing2]" type="text"/>
+      </div>
+
+      <div class="input-field col s12 l12">
+        <i class="material-icons prefix">perm_identity</i>
+        <input placeholder="ID Mahasiswa" id="user_ID" name="user[sid]" type="text"/>
+      </div>
+
+      <div class="input-field col s12 l12">
+        <i class="material-icons prefix">book</i>
+        <input placeholder="Judul Topik" id="user_topic" name="user[topic]" type="text"/>
+      </div>
+
+      <div class="input-field col s12 l12">
+      <input class="btn" name="submit_newmhs" type="submit" value="BUAT" />
+      </div>
+    </form>
+  </div>
+</div>
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="public/js/materialize.min.js"></script>
+</body>
+</html>

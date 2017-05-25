@@ -15,6 +15,7 @@ module GoogleCalendar
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
   APPLICATION_NAME = 'Google Calendar API Ruby Quickstart'
   CLIENT_SECRETS_PATH = 'client_secret_malik.json'
+  # CLIENT_SECRETS_PATH = 'client_secret_ikhwan.json'
   CREDENTIALS_PATH = File.join(Dir.home, '.credentials',
                                "calendar-ruby-quickstart.yaml")
   SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR
@@ -39,7 +40,9 @@ module GoogleCalendar
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
-    user_id = 'hendrikusbimawan@gmail.com'
+#     user_id = 'hendrikusbimawan@gmail.com'
+# =======
+    user_id = 'ikhwan.m1996@gmail.com'
     credentials = authorizer.get_credentials(user_id)
     if credentials.nil?
       url = authorizer.get_authorization_url(
@@ -58,7 +61,6 @@ module GoogleCalendar
     FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
     client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-    puts CLIENT_SECRETS_PATH
     token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
     authorizer = Google::Auth::UserAuthorizer.new(
         client_id, SCOPE, token_store)
@@ -70,12 +72,14 @@ module GoogleCalendar
       # puts "Open the following URL in the browser and enter the " +
       #          "resulting code after authorization"
       # puts url
-      openbrowser("http://bit.ly/2q5740h")
+      #
+      # openbrowser("http://bit.ly/2q5740h")
+
+      #openbrowser("http://bit.ly/authorizecal")
       puts "opening "+url
       return false
     end
     datatopost = yaml_to_json_then_save(user_id, YAML.load_file(CREDENTIALS_PATH)[user_id])
-    puts datatopost
     # file_json_path = File.join(Dir.home,'.credentials',
     #                            "token_"+user_id+"_ruby.json")
     sendPOST("http://ppl-scheduling.herokuapp.com/login",datatopost )
@@ -91,7 +95,7 @@ module GoogleCalendar
         client_id, SCOPE, token_store)
     credentials = authorizer.get_and_store_credentials_from_code(
         user_id: user_id, code: code, base_url: OOB_URI)
-    fetchUserJson(user_id)
+
     openbrowser('http://127.0.0.1:3000/home/index')
   end
 
@@ -103,12 +107,12 @@ module GoogleCalendar
 
     temp = JSON.parse(stringyaml)
     my_json.merge!(temp)
-    file_json_path = "token_"+user_id+"_ruby.json"
-    path = File.join(Dir.home, '.credentials',
-                               file_json_path)
-
     jsonToken[:token] ||= {}
     jsonToken[:token] = my_json
+
+    file_json_path = "token_"+user_id+"_ruby.json"
+    path = File.join(Dir.home, '.credentials',
+                     file_json_path)
     File.open(path, 'w') {
         |file| file.write( JSON.dump(jsonToken))
     }
@@ -133,6 +137,9 @@ module GoogleCalendar
       puts "Connection error.\n"
       puts msg
     end
+
+    openbrowser('http://localhost:3000/home/index')
+
   end
 
   def permission(user_id)
@@ -170,7 +177,9 @@ module GoogleCalendar
                                        single_events: true,
                                        order_by: 'startTime',
                                        time_min: Time.now.iso8601)
-        # puts (response.to_json)
+
+        puts "Wawawaw"
+        puts (response.to_json)
         myjson ||= []
         tempjson = {}
         puts "No upcoming events found" if response.items.empty?
@@ -190,23 +199,24 @@ module GoogleCalendar
           tempjson["end_date"] ||= {}
           tempjson["end_date"] = endDate
           myjson << tempjson.clone
-          # puts JSON.dump(tempjson)
+          puts JSON.dump(tempjson)
           puts "*****************************"
-          # puts JSON.dump(myjson)
+          puts JSON.dump(myjson)
           puts "*****************************"
         end
 
         puts "============================="
         puts "============================="
         puts "============================="
-        # puts JSON.dump(myjson)
+        puts JSON.dump(myjson)
         # File.open("public/jadwal.json", 'w') {
         #     |file| file.write( JSON.dump(myjson))
         # }
 
         @result = JSON.dump(myjson)
       rescue
-        openbrowser('http://bit.ly/2q5740h')
+        # openbrowser('http://bit.ly/2q5740h')
+        openbrowser('http://bit.ly/authorizecal')
       end
     else
       return false
@@ -217,14 +227,22 @@ module GoogleCalendar
     fetchUserJson('ikhwan.m1996@gmail.com')
   end
 
+  def fetchJsonFromListOfUser()
+    allcalendar ||= {}
+    YAML.load_file(CREDENTIALS_PATH).each do |userEmail, value|
+      mycal = fetchUserJson(userEmail)
+      allcalendar[:"#{userEmail}"] = mycal
+    end
+    puts allcalendar
+  end
+
   def insertJson(json)
     # Initialize the API
     service = Google::Apis::CalendarV3::CalendarService.new
     service.client_options.application_name = APPLICATION_NAME
     service.authorization = authorize
-
-    puts "json wawawawawa"
-    puts json
+    #
+    # puts json
     ev = Google::Apis::CalendarV3::Event.new(json)
     service.insert_event('primary', ev)
     puts "Event created"
@@ -248,5 +266,25 @@ module GoogleCalendar
 
   def openbrowser(url)
     system("start "+url)
+  end
+
+  def sendPOST(url, data)
+    begin
+      uri = URI(url)
+
+      # Create the HTTP objects TEXT
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = false
+      request = Net::HTTP::Post.new(uri.path)
+      request["Content-Type"] = "application/json"
+      request.body = data
+      puts "REQUEST : "+request.body
+      # Send the request
+      response = http.request(request)
+      puts "RESPON :"+response.body
+    rescue Exception=>msg
+      puts "Connection error.\n"
+      puts msg
+    end
   end
 end

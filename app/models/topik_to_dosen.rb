@@ -1,2 +1,0 @@
-class TopikToDosen < ApplicationRecord
-end
