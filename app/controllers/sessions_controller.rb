@@ -3,7 +3,8 @@ class SessionsController < ApplicationController
     begin
       user = User.from_omniauth(env["omniauth.auth"])
       session[:user_id] = user.id
-      flash[:success] = "Welcome, #{@user.name}!"
+      name = user.name
+      flash[:success] = "Welcome, " + name + "!"
     end
     redirect_to root_path
   end
@@ -12,7 +13,7 @@ class SessionsController < ApplicationController
     if current_user
       session[:user_id] = nil
       flash[:success] = 'See you!'
+      redirect_to login_path
     end
-    redirect_to login_path
   end
 end
