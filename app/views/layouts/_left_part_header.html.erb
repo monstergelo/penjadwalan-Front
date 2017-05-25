@@ -1,27 +1,110 @@
 <div class="grimps-blue demo-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
   <header class="demo-drawer-header grimps-text-plain">
-      <!--<div class="user-info">-->
-        <!--<img src="images/user.jpg" class="demo-avatar">-->
-        <!--<div>-->
-          <!--<span class="grimps-text-lato grimps-text-big">Yudistira Asnar</span><br>-->
-          <!--<span>Lecturer</span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="demo-avatar-dropdown">-->
-        <!--<div class="mdl-layout-spacer"></div>-->
-        <!--&lt;!&ndash;<span class="email" title="yudis@informatika.org">yudis@informatika.org</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button&#45;&#45;icon">&ndash;&gt;-->
-          <!--&lt;!&ndash;<i class="material-icons" role="presentation">arrow_drop_down</i>&ndash;&gt;-->
-          <!--&lt;!&ndash;<span class="visuallyhidden">Accounts</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;</button>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ul class="mdl-menu mdl-menu&#45;&#45;bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">&ndash;&gt;-->
-          <!--&lt;!&ndash;&lt;!&ndash;<li class="mdl-menu__item" onclick="window.location='dsn-profil.html'">Profile</li>&ndash;&gt;&ndash;&gt;-->
-          <!--&lt;!&ndash;<li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>&ndash;&gt;-->
-        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-      <!--</div>-->
-      <!--<hr>-->
-    </header>
+        <div class="user-info">
+          <img src="images/user.jpg" class="demo-avatar">
+          <div>
+            <span class="grimps-text-lato grimps-text-big"><%=current_user.name%></span><br>
+          </div>
+        </div>
+        <div class="demo-avatar-dropdown">
+          <div class="mdl-layout-spacer"></div>
+          <span class="email" title="yudis@informatika.org"><%=current_user.email%></span>
+          <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+            <i class="material-icons" role="presentation">arrow_drop_down</i>
+            <span class="visuallyhidden">Accounts</span>
+          </button>
+          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+            <li class="mdl-menu__item" onclick="window.location='dsn-profil.html'">Profile</li>
+            <li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>
+          </ul>
+        </div>
+        <hr>
+      </header>
+      <nav class="grimps-text-alcu grimps-text-title demo-navigation mdl-navigation">
+        <div id="view">
+          <div class="grimps-text-view">View</div>
+          <!--Tampilan day-->
+          <div id = "day">
+            <div class="mdl-navigation__link grimps-text-plain" onclick="dayview()"><i class="material-icons">view_day</i>Day</div>
+          </div>
+          <script>
+              function dayview() {
+                  var str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+                  document.getElementById("day").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+                  document.getElementById("week").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+                  document.getElementById("month").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+                  document.getElementById("list").innerHTML = str;
+                  scheduler.init('scheduler_here',new Date(),"day");
+              }
+          </script>
 
-  <% render 'layouts/left_part_checkboxes' %>
+          <!--Tampilan week-->
+          <div id = "week">
+            <div class="mdl-navigation__link grimps-text-plain" onclick="weekview()"><i class="material-icons">view_week</i>Week</div>
+          </div>
+          <script>
+              function weekview() {
+                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+                  document.getElementById("day").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+                  document.getElementById("week").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+                  document.getElementById("month").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+                  document.getElementById("list").innerHTML = str;
+                  scheduler.init('scheduler_here',new Date(),"week");
+              }
+          </script>
+
+          <!--Tampilan month-->
+          <div id = "month">
+            <div class="mdl-navigation__link grimps-text-plain grimps-selected" onclick="monthview()"><i class="material-icons">view_module</i>Month</div>
+          </div>
+          <script>
+              function monthview() {
+                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+                  document.getElementById("day").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+                  document.getElementById("week").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+                  document.getElementById("month").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+                  document.getElementById("list").innerHTML = str;
+                  scheduler.init('scheduler_here',new Date(),"month");
+              }
+          </script>
+
+          <!--Tampilan list-->
+          <div id = "list">
+            <div class="mdl-navigation__link grimps-text-plain" onclick="listview()"><i class="material-icons">view_list</i>List</div>
+          </div>
+          <script>
+              function listview() {
+                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+                  document.getElementById("day").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+                  document.getElementById("week").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+                  document.getElementById("month").innerHTML = str;
+                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+                  document.getElementById("list").innerHTML = str;
+
+              }
+          </script>
+
+        </div>
+    </header>
+    <!--CHECKBOXES-->
+        <div id = "calendar-option">
+          <br>
+          <div class="grimps-text-view">Calendars</div>
+          <div class="grimps-text-calendar-option">
+          </div>
+        </div>
+    <!--<% render 'layouts/left_part_checkboxes' %>-->
+      </nav>
 
 </div>
