@@ -873,11 +873,12 @@ class HomeController < ApplicationController
   def test_query
     puts "DOSEN==============================="
     Dosen.all.each do |dosen|
-      puts dosen.nama
+      puts dosen.name
     end
     puts "Mahasiswa==============================="
+    puts Mahasiswa.column_names
     Mahasiswa.all.each do |mahasiswa|
-      puts mahasiswa.nama
+      puts mahasiswa.name
     end
     puts "EVENT==============================="
     Event.all.each do |event|
