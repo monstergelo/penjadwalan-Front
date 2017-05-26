@@ -1,8 +1,13 @@
 RailsAdmin.config do |config|
+  # config.authorize_with do
+  #   authenticate_or_request_with_http_basic('Login required') do |username, password|
+  #     user = User.where(email: username, encrypted_password: nil, is_admin: false).first
+  #     user
+  #   end
+  # end
   config.authorize_with do
     authenticate_or_request_with_http_basic('Login required') do |username, password|
-      user = User.where(email: username, encrypted_password: nil, is_admin: false).first
-      user
+      username == 'admin' && password == 'password'
     end
   end
   ### Popular gems integration
