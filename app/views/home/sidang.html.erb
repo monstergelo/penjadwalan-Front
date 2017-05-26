@@ -16,8 +16,5 @@
 <script>
     scheduler.config.xml_date="%Y-%m-%d %H:%i";
     scheduler.init("scheduler_here",new Date(),"month");
-    scheduler.load("<%= fetch_path %>", "json");
-    var dp = new dataProcessor("<%= calendar_action_path %>");
-    dp.init(scheduler);
-    dp.setTransactionMode("GET", false);
+    scheduler.load("<%= routeFetchResult_path(0) %>", "json");
 </script>

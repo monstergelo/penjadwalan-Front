@@ -1,110 +1,117 @@
 <div class="grimps-blue demo-drawer mdl-layout__drawer mdl-color-text--blue-grey-50">
   <header class="demo-drawer-header grimps-text-plain">
-        <div class="user-info">
-          <img src="images/user.jpg" class="demo-avatar">
-          <div>
-            <span class="grimps-text-lato grimps-text-big"><%=current_user.name%></span><br>
-          </div>
-        </div>
-        <div class="demo-avatar-dropdown">
-          <div class="mdl-layout-spacer"></div>
-          <span class="email" title="yudis@informatika.org"><%=current_user.email%></span>
-          <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">arrow_drop_down</i>
-            <span class="visuallyhidden">Accounts</span>
-          </button>
-          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-            <li class="mdl-menu__item" onclick="window.location='dsn-profil.html'">Profile</li>
-            <li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>
-          </ul>
-        </div>
-        <hr>
-      </header>
-      <nav class="grimps-text-alcu grimps-text-title demo-navigation mdl-navigation">
-        <div id="view">
-          <div class="grimps-text-view">View</div>
-          <!--Tampilan day-->
-          <div id = "day">
-            <div class="mdl-navigation__link grimps-text-plain" onclick="dayview()"><i class="material-icons">view_day</i>Day</div>
-          </div>
-          <script>
-              function dayview() {
-                  var str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
-                  document.getElementById("day").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
-                  document.getElementById("week").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
-                  document.getElementById("month").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
-                  document.getElementById("list").innerHTML = str;
-                  scheduler.init('scheduler_here',new Date(),"day");
-              }
-          </script>
+    <div class="user-info">
+      <img src="images/user.jpg" class="demo-avatar">
+      <div>
+        <span class="grimps-text-lato grimps-text-big"><%=current_user.name%></span><br>
+      </div>
+    </div>
+    <div class="demo-avatar-dropdown">
+      <div class="mdl-layout-spacer"></div>
+      <span class="email" title="yudis@informatika.org"><%=current_user.email%></span>
+      <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">arrow_drop_down</i>
+        <span class="visuallyhidden">Accounts</span>
+      </button>
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+        <li class="mdl-menu__item" onclick="window.location='dsn-profil.html'">Profile</li>
+        <li class="mdl-menu__item" onclick="window.location='index.html'">Logout</li>
+      </ul>
+    </div>
+    <hr>
+  </header>
+  <nav class="grimps-text-alcu grimps-text-title demo-navigation mdl-navigation">
+    <div id="view">
+      <div class="grimps-text-view">View</div>
+      <!--Tampilan day-->
+      <div id = "day">
+        <div class="mdl-navigation__link grimps-text-plain" onclick="dayview()"><i class="material-icons">view_day</i>Day</div>
+      </div>
+      <script>
+          function dayview() {
+              var str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+              document.getElementById("day").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+              document.getElementById("week").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+              document.getElementById("month").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+              document.getElementById("list").innerHTML = str;
+              scheduler.init('scheduler_here',new Date(),"day");
+          }
+      </script>
 
-          <!--Tampilan week-->
-          <div id = "week">
-            <div class="mdl-navigation__link grimps-text-plain" onclick="weekview()"><i class="material-icons">view_week</i>Week</div>
-          </div>
-          <script>
-              function weekview() {
-                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
-                  document.getElementById("day").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
-                  document.getElementById("week").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
-                  document.getElementById("month").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
-                  document.getElementById("list").innerHTML = str;
-                  scheduler.init('scheduler_here',new Date(),"week");
-              }
-          </script>
+      <!--Tampilan week-->
+      <div id = "week">
+        <div class="mdl-navigation__link grimps-text-plain" onclick="weekview()"><i class="material-icons">view_week</i>Week</div>
+      </div>
+      <script>
+          function weekview() {
+              var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+              document.getElementById("day").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+              document.getElementById("week").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+              document.getElementById("month").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+              document.getElementById("list").innerHTML = str;
+              scheduler.init('scheduler_here',new Date(),"week");
+          }
+      </script>
 
-          <!--Tampilan month-->
-          <div id = "month">
-            <div class="mdl-navigation__link grimps-text-plain grimps-selected" onclick="monthview()"><i class="material-icons">view_module</i>Month</div>
-          </div>
-          <script>
-              function monthview() {
-                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
-                  document.getElementById("day").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
-                  document.getElementById("week").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
-                  document.getElementById("month").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
-                  document.getElementById("list").innerHTML = str;
-                  scheduler.init('scheduler_here',new Date(),"month");
-              }
-          </script>
+      <!--Tampilan month-->
+      <div id = "month">
+        <div class="mdl-navigation__link grimps-text-plain grimps-selected" onclick="monthview()"><i class="material-icons">view_module</i>Month</div>
+      </div>
+      <script>
+          function monthview() {
+              var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+              document.getElementById("day").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+              document.getElementById("week").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+              document.getElementById("month").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+              document.getElementById("list").innerHTML = str;
+              scheduler.init('scheduler_here',new Date(),"month");
+          }
+      </script>
 
-          <!--Tampilan list-->
-          <div id = "list">
-            <div class="mdl-navigation__link grimps-text-plain" onclick="listview()"><i class="material-icons">view_list</i>List</div>
-          </div>
-          <script>
-              function listview() {
-                  var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
-                  document.getElementById("day").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
-                  document.getElementById("week").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
-                  document.getElementById("month").innerHTML = str;
-                  str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
-                  document.getElementById("list").innerHTML = str;
+      <!--Tampilan list-->
+      <div id = "list">
+        <div class="mdl-navigation__link grimps-text-plain" onclick="listview()"><i class="material-icons">view_list</i>List</div>
+      </div>
+      <script>
+          function listview() {
+              var str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"dayview()\"><i class=\"material-icons\">view_day</i>Day</div>";
+              document.getElementById("day").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"weekview()\"><i class=\"material-icons\">view_week</i>Week</div>";
+              document.getElementById("week").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain\" onclick=\"monthview()\"><i class=\"material-icons\">view_module</i>Month</div>";
+              document.getElementById("month").innerHTML = str;
+              str = "<div class=\"mdl-navigation__link grimps-text-plain grimps-selected\" onclick=\"listview()\"\><i class=\"material-icons\">view_list</i>List</div>";
+              document.getElementById("list").innerHTML = str;
+          }
+      </script>
 
-              }
-          </script>
-
-        </div>
+    </div>
     </header>
     <!--CHECKBOXES-->
-        <div id = "calendar-option">
-          <br>
-          <div class="grimps-text-view">Calendars</div>
-          <div class="grimps-text-calendar-option">
-          </div>
-        </div>
-    <!--<% render 'layouts/left_part_checkboxes' %>-->
-      </nav>
-
+    <div id = "calendar-option">
+      <br>
+      <div class="grimps-text-view">Calendars</div>
+      <div class="grimps-text-calendar-option">
+        <ul>
+          <li><%= link_to "sidang", sidang_path %></li>
+          <ul><li><%= link_to "(assign)", assign_sidang_path(0) %></li></ul>
+          <li><%= link_to "seminar satu", seminar_satu_path %></li>
+          <ul><li><%= link_to "(assign)", assign_sidang_path(1) %></li></ul>
+          <li><%= link_to "seminar dua", seminar_dua_path %></li>
+          <ul><li><%= link_to "(assign)", assign_sidang_path(2) %></li></ul>
+          <li><%= link_to "kerja praktik", kerja_praktik_path %></li>
+          <ul><li><%= link_to "(assign)", assign_sidang_path(9) %></li></ul>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </div>

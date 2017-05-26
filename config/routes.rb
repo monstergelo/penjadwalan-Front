@@ -12,25 +12,25 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
 
-  resources :topik_to_mahasiswas
-  resources :topik_to_dosens
   resources :pembimbings
   resources :pengujis
-  resources :topiks
   resources :mahasiswas
   resources :dosens
   root 'home#index'
 
   get 'home/show'
   get 'home/index'
-  get 'home/kerja_praktik'
-  get 'home/seminar_satu'
-  get 'home/seminar_dua'
-  get 'home/sidang'
+  get 'home/kerja_praktik', :to => "home#kerja_praktik", :as => "kerja_praktik"
+  get 'home/seminar_satu', :to => "home#seminar_satu", :as => "seminar_satu"
+  get 'home/seminar_dua' , :to => "home#seminar_dua", :as => "seminar_dua"
+  get 'home/sidang', :to => "home#sidang", :as => "sidang"
   get 'home/test_calendar_process'
   get 'home/tambah_mahasiswa'
   get 'home/index'
   get "home/routeSchedule/:event_type", :to => "home#routeSchedule", :as => "routeSchedule"
+  get "home/routeFetchResult/:event_type", :to => "home#routeFetchResult", :as => "routeFetchResult"
+  get "home/assign_sidang/:event_type", :to => "home#assign_sidang", :as => "assign_sidang"
+  get "home/routeConfirmCalendar/:event_type", :to => "home#routeConfirmCalendar", :as => "routeConfirmCalendar"
   match "home/data", :to => "home#data", :as => "data", :via => "get"
   match "home/fetch", :to => "home#fetch", :as => "fetch", :via => "get"
   match "home/schedule", :to => "home#schedule", :as => "schedule", :via => "get"
@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   match "home/result_calendar", :to => "home#result_calendar", :as => "result_calendar", :via => "get"
   match "home/receive_json_result", :to => "home#receive_json_result", :as => "receive_json_result", :via => "get"
   match "home/calendar_action", :to => "home#calendar_action", :as => "calendar_action", :via => "get"
+  match "home/calendar_edit_action/", :to => "home#calendar_edit_action", :as => "calendar_edit_action", :via => "get"
   match "home/permission_action", :to => "home#permission_action", :as => "permission_action", :via => "post"
   match "home/login", :to => "home#login", :as => "login", :via => "get"
   match "home/get_email", :to => "home#get_email", :as => "get_email", :via => "post"
