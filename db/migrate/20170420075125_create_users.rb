@@ -1,6 +1,5 @@
 class CreateUsers < ActiveRecord::Migration[5.0]
   def self.up
-    drop_table :users
     create_table :users do |t|
       t.string :provider
       t.string :uid
@@ -9,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :oauth_token
       t.string :oauth_refresh_token
       t.string :role
+      t.string :kategori
       t.string :NIP
       t.string :NIM
       t.datetime :oauth_expires_at
